@@ -6,8 +6,8 @@
 // @author       MDuh
 // @match        http://puzzledragonx.com/
 // @require      http://userscripts-mirror.org/scripts/source/107941.user.js
-// @downloadURL  https://github.com/mdnpascual/padherderExtender/raw/master/Padx_test.user.js
-// @updateURL    https://github.com/mdnpascual/padherderExtender/raw/master/Padx_test.user.js
+// @downloadURL  https://github.com/mdnpascual/Padherder_Extender/raw/master/Padx.user.js
+// @updateURL    https://github.com/mdnpascual/Padherder_Extender/raw/master/Padx.user.js
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_xmlhttpRequest
