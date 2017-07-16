@@ -265,7 +265,7 @@
 
                         m = offsetseeker(mats_format[t][0], mons_data);
                         mats_format[t][5] += ":::" + (mons_data[m].name);
-                        mats_format[t][6] = mats_format[t][5] + "," + splitting[0].split("(")[1].split(")")[0];
+                        mats_format[t][6] = mats_format[t][6] + ":::" + splitting[0].split("(")[1].split(")")[0];
                         //find index and modify values
                     }
                     i++;
