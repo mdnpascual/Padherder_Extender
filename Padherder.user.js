@@ -35,24 +35,27 @@
     var mons_data = [];
     var active_skill = [];
     var active_skill_string;
+    //Get current database
     allParse.push($.get("https://gist.githubusercontent.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440/raw/file1.txt", function( database_scraped ) {
         lines = database_scraped.split("\n");
         storedday = lines[0];
-    }));
+    }));//2 links because gist is funky with updating hard links
     allParse.push($.get("https://gist.githubusercontent.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440/raw/", function( database_scraped ) {
         lines2 = database_scraped.split("\n");
         storedday2 = lines2[0];
     }));
     $.when(allParse[0], allParse[1]).done(function() {
-        if ((storedday != today) && (storedday2 != today)){
+        if ((storedday != today) && (storedday2 != today)){//If both links don't match the current day
             alert("Padx database not updated for today, please visit puzzledragonx.com/ and let the script update the database");
         }
         else{
-            if (storedday == today)
+            if (storedday == today)//replace lines with lines2 if most recent database is the 2nd one
                 lines = lines2;
+            //Get username (Gets the name in the upper right of parderher so user must be logged in)
             var username_eval = document.evaluate('//*[@id="username-dropdown"]/span', document, null, XPathResult.ANY_TYPE, null);
             var username = username_eval.iterateNext();
 
+            //Get api data
             functionales.push($.get("https://www.padherder.com/user-api/user/" + username.textContent + "/", function( padx_scraped ) {
                 data_user = padx_scraped;
             }));
@@ -79,11 +82,12 @@
                 var i = 0;
                 var o;
                 var max_c, min_c;
-                //Filter monster that has planned evolutions only
+                //Parse all user data monsters
                 while (i < parseInt(data_user.monsters.length)){
-                    if (data_user.monsters[i].target_evolution !== null){
+                    if (data_user.monsters[i].target_evolution !== null){//Ignore monsters that has no planned evolutions in evo search
                         filter_mons.push(data_user.monsters[i]);
                     }
+                    //Finding monster's skill parameters and compute how many skillup monsters are needed
                     var findstring = '"name":"';
                     var monsss_id = (data_user.monsters[i].target_evolution == null) ? parseInt(data_user.monsters[i].monster) - 1 : parseInt(data_user.monsters[i].target_evolution) - 1;
                     var l = monsss_id;
@@ -102,7 +106,7 @@
                         findstring = active_skill_string.substring(n,n+15);
                     }
                     max_c = active_skill_string.substring(n+15,o+1);
-                    while (findstring !== ',"effect":"'){//find min_cooldown
+                    while (findstring !== ',"effect":"'){//find index separator for min_cooldown
                         n--;
                         findstring = active_skill_string.substring(n,n+11);
                     }
@@ -112,15 +116,16 @@
                         findstring = active_skill_string.substring(n,n+15);
                     }
                     min_c = active_skill_string.substring(n+15,o);
+                    //only considering monsters that have priority of medium or higher
                     if (parseInt(data_user.monsters[i].priority) > 1 && parseInt(data_user.monsters[i].current_skill) < (max_c - min_c)){
                         var enteredonce = false;
                         var skillupevo = "";
                         var j = 1;
-                        while (j < lines.length){
+                        while (j < lines.length){//Loop in today's database
                             var splitmore = lines[j].split("::: ");
                             var splitmoremore = splitmore[1].split(",");
                             var k = 0;
-                            while (k < splitmoremore.length -1){
+                            while (k < splitmoremore.length -1){//Loop on all monster in each line's dungeon
                                 m = offsetseeker(splitmoremore[k], mons_data);
                                 if (mons_data[m].active_skill == mons_data[l].active_skill){
                                     if (!enteredonce)
@@ -128,15 +133,13 @@
                                     else
                                         skillupevo = skillupevo + splitmore[0] + "::: " + mons_data[m].id + "::: " + mons_data[m].name + "|||";
                                     enteredonce = true;
-                                    break;
+                                    break;//Break if confirmed dungeon has skillup for monster
                                 }
-                                //filter_mons_need_skillup.push(data_user.monsters[i].monster + "::: " + mons_data[l].active_skill + "(" + (max_c - min_c) + ")");
                                 k++;
                             }
                             //last entry always empty
                             j++;
                         }
-                        //filter_mons_need_skillup.push(data_user.monsters[i].monster + "::: " + mons_data[l].active_skill + "::: " + (max_c - min_c)); //CHANGE THIS!!
                         if (skillupevo !== ""){
                             filter_mons_need_skillup.push(skillupevo);
                         }
@@ -150,7 +153,6 @@
                 i = 0;
                 while (i < parseInt(filter_mons.length)){
                     var j = 0;
-                    //var monsevostring = filter_mons[i].target_evolution + ":::";
                     var next_evo = filter_mons[i].target_evolution;
                     do{
                         //Finding target_evo in string. (Searching backwards)
@@ -189,14 +191,13 @@
                                         while (q < splitmoremore.length -1){
                                             var r = splitmoremore[q];
                                             if (r == data_evo_string.substring(n+1,o).split(",")[0]){
-                                                filteredw_evo_mons.push(filter_mons[i].target_evolution + "(" + data_evo_string.substring(n+1,o).split(",")[1] + ")" + "::: " + data_evo_string.substring(n+1,o).split(",")[0] + "::: " + splitmore[0]);
+                                                filteredw_evo_mons.push(filter_mons[i].target_evolution + "(" + data_evo_string.substring(n+1,o).split(",")[1] + ")" + "::: " + data_evo_string.substring(n+1,o).split(",")[0] + "::: " + splitmore[0] + "::: " + mons_data[offsetseeker(filter_mons[i].monster, mons_data)].name);
                                                 break;
                                             }
                                             q++;
                                         }
                                         p++;
                                     }
-                                    //monsevostring = monsevostring + data_evo_string.substring(n+1,o).replace(",","(") + "),";
                                 }
                                 n--;
                             }
@@ -208,7 +209,6 @@
                         }
                         next_evo = next_evoooo;
                     }while(filter_mons[i].monster != next_evo);
-                    //filteredw_evo_mons.push(monsevostring);
                     i++;
                 }
                 console.log("filteredw_evo_mons");
@@ -233,17 +233,12 @@
                     if (status){
                         temparray.push(splitting[1]);
                         temparray.push(1);
-                        var j = 2;
-                        var tempstring = '';
-                        while (j < splitting.length){
-                            //tempstring = tempstring + splitting[j] + "&#13;";
-                            tempstring = tempstring + splitting[j] + ":::";
-                            j++;
-                        }
-                        temparray.push(tempstring);
-                        m = offsetseeker(splitting[0].split("(")[0], mons_data);
+
+                        temparray.push(splitting[2] + ":::");
+                        m = offsetseeker(temparray[0], mons_data);
                         temparray.push(mons_data[m].image60_href);
-                        temparray.push(mons_data[m].name);
+                        m = offsetseeker(splitting[0].split("(")[0], mons_data);
+                        temparray.push(splitting[3] + " -> " + mons_data[m].name);
 
                         m = offsetseeker(temparray[0], mons_data);
                         temparray.push(mons_data[m].name);
@@ -251,24 +246,13 @@
                         mats_format.push(temparray);
                     }
                     else{
-                        //var r = mats_format.indexOf(splitting[1]);
-                        var j = 2;
-                        var tempstring = '';
-                        while (j < splitting.length){
-                            //tempstring = tempstring + splitting[j] + "&#13;";
-                            tempstring = tempstring + splitting[j] + ":::";
-                            j++;
-                        }
-                        mats_format[t][2] += tempstring;
+                        mats_format[t][2] += splitting[2] + ":::";
 
                         m = offsetseeker(splitting[0].split("(")[0], mons_data);
-                        //mats_format[t][3] += mons_data[m].image60_href;
-                        mats_format[t][4] += ":::" + mons_data[m].name;
+                        mats_format[t][4] += ":::" + splitting[3] + " -> " + mons_data[m].name;
 
                         m = offsetseeker(mats_format[t][0], mons_data);
-                        //mats_format[t][5] += ":::" + (mons_data[m].name);
                         mats_format[t][6] = mats_format[t][6] + ":::" + splitting[0].split("(")[1].split(")")[0];
-                        //find index and modify values
                     }
                     i++;
                 }
