@@ -241,6 +241,7 @@
                         }
                         temparray.push(tempstring);
                         m = offsetseeker(splitting[0].split("(")[0], mons_data);
+                        temparray.push(mons_data[m].image60_href);
                         temparray.push(mons_data[m].name);
 
                         m = offsetseeker(temparray[0], mons_data);
@@ -259,11 +260,12 @@
                         mats_format[t][2] += tempstring;
 
                         m = offsetseeker(splitting[0].split("(")[0], mons_data);
-                        mats_format[t][3] += ":::" + mons_data[m].name;
+                        //mats_format[t][3] += mons_data[m].image60_href;
+                        //mats_format[t][4] += ":::" + mons_data[m].name;
 
-                        m = offsetseeker(mats_format[t][0], mons_data);
-                        mats_format[t][4] += ":::" + (mons_data[m].name);
-                        mats_format[t][5] = mats_format[t][5] + "," + splitting[0].split("(")[1].split(")")[0];
+                        //m = offsetseeker(mats_format[t][0], mons_data);
+                        //mats_format[t][5] += ":::" + (mons_data[m].name);
+                        //mats_format[t][6] = mats_format[t][5] + "," + splitting[0].split("(")[1].split(")")[0];
                         //find index and modify values
                     }
                     i++;
