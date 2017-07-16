@@ -236,7 +236,8 @@
                         var j = 2;
                         var tempstring = '';
                         while (j < splitting.length){
-                            tempstring = tempstring + splitting[j] + "&#13;";
+                            //tempstring = tempstring + splitting[j] + "&#13;";
+                            tempstring = tempstring + splitting[j] + ":::";
                             j++;
                         }
                         temparray.push(tempstring);
@@ -254,7 +255,8 @@
                         var j = 2;
                         var tempstring = '';
                         while (j < splitting.length){
-                            tempstring = tempstring + splitting[j] + "&#13;";
+                            //tempstring = tempstring + splitting[j] + "&#13;";
+                            tempstring = tempstring + splitting[j] + ":::";
                             j++;
                         }
                         mats_format[t][2] += tempstring;
@@ -264,7 +266,7 @@
                         mats_format[t][4] += ":::" + mons_data[m].name;
 
                         m = offsetseeker(mats_format[t][0], mons_data);
-                        mats_format[t][5] += ":::" + (mons_data[m].name);
+                        //mats_format[t][5] += ":::" + (mons_data[m].name);
                         mats_format[t][6] = mats_format[t][6] + ":::" + splitting[0].split("(")[1].split(")")[0];
                         //find index and modify values
                     }
