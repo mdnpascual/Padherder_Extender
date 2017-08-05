@@ -36,7 +36,7 @@
     }));
 
     $.when(timeParse[0], timeParse[1]).done(function() {
-        if ((storedday != today) || (storedday2 != today)){
+        if ((storedday == today) || (storedday2 == today)){
             //No need to Fetch dungeon and monsters
             /*$.ajax({
                 url: 'https://api.github.com/authorizations',
