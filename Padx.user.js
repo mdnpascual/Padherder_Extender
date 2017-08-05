@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padx_test
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  try to take over the world!
 // @author       MDuh
 // @match        http://puzzledragonx.com/
@@ -21,21 +21,22 @@
     //console.log(storedday); //DEBUGGER
     var today = new Date( new Date().getTime() + -2 * 3600 * 1000).getDay();
     var storedday = GM_getValue("date_sync", -1);
+    var storedday2 = GM_getValue("date_sync", -1);
     var blah = GM_getValue("padx_scraped", -1);
     var padxscraped = GM_getValue("padx_scraped", -1);
 
     var timeParse = [];
-    timeParse.push($.get("https://gist.githubusercontent.com/mdnpascual/f7b96d4553503d95641d83bb5c3e1599/raw/file1.txt", function( database_scraped ) {
+    timeParse.push($.get("https://gist.githubusercontent.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440/raw/file1.txt", function( database_scraped ) {
         var lines = database_scraped.split("\n");
         storedday = lines[0];
     }));
-    timeParse.push($.get("https://gist.githubusercontent.com/mdnpascual/f7b96d4553503d95641d83bb5c3e1599/raw/", function( database_scraped ) {
+    timeParse.push($.get("https://gist.githubusercontent.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440/raw/", function( database_scraped ) {
         var lines = database_scraped.split("\n");
-        storedday = lines[0];
+        storedday2 = lines[0];
     }));
 
-    $.when(timeParse[0]).done(function() {
-        if (storedday == today){
+    $.when(timeParse[0], timeParse[1]).done(function() {
+        if ((storedday != today) || (storedday2 != today)){
             //No need to Fetch dungeon and monsters
             /*$.ajax({
                 url: 'https://api.github.com/authorizations',
