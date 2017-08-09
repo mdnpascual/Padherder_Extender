@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  try to take over the world!
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -71,14 +71,14 @@
                 active_skill_string = JSON.stringify(padx_scraped);
             }));
             $.when(functionales[0], functionales[1], functionales[2], functionales[3]).done(function() {
-                console.log("data_user");
-                console.log(data_user);
-                console.log("data_evo");
-                console.log(data_evo);
-                console.log("mons_data");
-                console.log(mons_data);
-                console.log("active_skill");
-                console.log(active_skill);
+                ////console.log("data_user");
+                ////console.log(data_user);
+                ////console.log("data_evo");
+                ////console.log(data_evo);
+                ////console.log("mons_data");
+                ////console.log(mons_data);
+                ////console.log("active_skill");
+                ////console.log(active_skill);
                 var i = 0;
                 var o;
                 var max_c, min_c;
@@ -146,9 +146,11 @@
                     }
                     i++;
                 }
-                console.log("filter_mons");
-                console.log(filter_mons);
-                console.log("filter_mons_need_skillup");
+                ////console.log("filter_mons");
+                ////console.log(filter_mons);
+                ////console.log("filter_mons_need_skillup");
+                console.log("--------------Needs skillup--------------");
+                console.log("Format: Your_Monster_ID(amount_needed)|||Dungeon ::: Monster_ID_to_farm ::: Monster_name_to_farm");
                 console.log(filter_mons_need_skillup);
                 i = 0;
                 while (i < parseInt(filter_mons.length)){
@@ -211,8 +213,8 @@
                     }while(filter_mons[i].monster != next_evo);
                     i++;
                 }
-                console.log("filteredw_evo_mons");
-                console.log(filteredw_evo_mons);
+                //console.log("filteredw_evo_mons");
+                //console.log(filteredw_evo_mons);
 
                 i = 0;
                 var mats_format = [[]];
@@ -232,7 +234,7 @@
                     }
                     if (status){
                         temparray.push(splitting[1]);
-                        temparray.push(1);
+                        temparray.push(1);// Change this for amount
 
                         temparray.push(splitting[2] + ":::");
                         m = offsetseeker(temparray[0], mons_data);
@@ -256,7 +258,16 @@
                     }
                     i++;
                 }
-                console.log("mats_format");
+                ////console.log("mats_format");
+                console.log("--------------Materials needed to be farmed--------------");
+                console.log("Array Format: ");
+                console.log("[0]: Monster_ID_to_farm");
+                console.log("[1]: Total Amount");
+                console.log("[2]: Dungeon_available_to_farm(Delimiter: \":::\")");
+                console.log("[3]: Image_link_of_monster_to_farm");
+                console.log("[4]: Monster_Evo_transition(Delimiter: \":::\")");
+                console.log("[5]: Monster_name_to_farm");
+                console.log("[6]: Amount(Delimiter: \":::\")");
                 console.log(mats_format);
 
                 var HTMLstring = '<div id="dungeon-reminder-box2" class="row" style="display: block;"><div class="col-xs-13"><div id="dungeon-reminder" class="alert alert-info"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><p><strong>Padherder Extender </strong> Materials that you need that can be farmed today </p><form method="POST" action=".."><input type="hidden" name="csrfmiddlewaretoken" value=".."><input type="hidden" name="next" value="..">';
