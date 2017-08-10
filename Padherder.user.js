@@ -213,8 +213,8 @@
                     }while(filter_mons[i].monster != next_evo);
                     i++;
                 }
-                //console.log("filteredw_evo_mons");
-                //console.log(filteredw_evo_mons);
+                console.log("filteredw_evo_mons");
+                console.log(filteredw_evo_mons);
 
                 i = 0;
                 var mats_format = [[]];
@@ -223,7 +223,7 @@
                     var splitting = filteredw_evo_mons[i].split("::: ");
                     var t = 1;
                     var status = true;
-                    while (t < splitting.length){
+                    while (t < mats_format.length){
                         if ("undefined" !== typeof mats_format[t]){
                             if (mats_format[t][0] == splitting[1]){
                                 status = false;
