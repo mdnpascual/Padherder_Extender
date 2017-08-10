@@ -7,8 +7,8 @@
 // @match        https://www.padherder.com/*
 // @require      http://userscripts-mirror.org/scripts/source/107941.user.js
 // @require      http://code.jquery.com/jquery-3.2.1.js
-// @downloadURL  https://github.com/mdnpascual/Padherder_Extender/raw/master/Padherder.user.js
-// @updateURL    https://github.com/mdnpascual/Padherder_Extender/raw/master/Padherder.user.js
+// @downloadURL  https://github.com/mdnpascual/padherderExtender/raw/master/Padherder_test.user.js
+// @updateURL    https://github.com/mdnpascual/padherderExtender/raw/master/Padherder_test.user.js
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @run-at       document-end
@@ -270,7 +270,10 @@
                 console.log("[6]: Amount(Delimiter: \":::\")");
                 console.log(mats_format);
 
-                var HTMLstring = '<div id="dungeon-reminder-box2" class="row" style="display: block;"><div class="col-xs-13"><div id="dungeon-reminder" class="alert alert-info"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><p><strong>Padherder Extender </strong> Materials that you need that can be farmed today </p><form method="POST" action=".."><input type="hidden" name="csrfmiddlewaretoken" value=".."><input type="hidden" name="next" value="..">';
+                var inject_this = document.createElement("div");
+                inject_this.innerHTML = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}</style><table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><img src="https://www.padherder.com/static/img/monsters/60x60/162.35dc01efa82a.png" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">0</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table><table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><img src="https://www.padherder.com/static/img/monsters/60x60/165.a23a17a7222a.png" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">0</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table>';
+                var list = getElementByXpath("//*[@id=\"container\"]/div[3]/div/p");
+                list.insertBefore(inject_this, list.childNodes[0]);
             });
         }
     });
@@ -291,5 +294,8 @@
             }
         }
         return m;
+    }
+    function getElementByXpath(path) {
+        return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     }
 })();
