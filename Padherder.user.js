@@ -71,8 +71,9 @@
                 active_skill_string = JSON.stringify(padx_scraped);
             }));
             $.when(functionales[0], functionales[1], functionales[2], functionales[3]).done(function() {
-                ////console.log("data_user");
-                ////console.log(data_user);
+                //TODO: Use Data_user to deduct amount of mats to farm depending on how many is in the padherder count
+                console.log("data_user");
+                console.log(data_user);
                 ////console.log("data_evo");
                 ////console.log(data_evo);
                 ////console.log("mons_data");
@@ -116,7 +117,7 @@
                         findstring = active_skill_string.substring(n,n+15);
                     }
                     min_c = active_skill_string.substring(n+15,o);
-                    //only considering monsters that have priority of medium or higher
+                    //only considering monsters that have priority of medium or higher (change: 1 -> 2(high only), 1 -> 0 (Zero excluded). 1 -> -1 (Everything)
                     if (parseInt(data_user.monsters[i].priority) > 1 && parseInt(data_user.monsters[i].current_skill) < (max_c - min_c)){
                         var enteredonce = false;
                         var skillupevo = "";
@@ -213,9 +214,10 @@
                     }while(filter_mons[i].monster != next_evo);
                     i++;
                 }
-                console.log("filteredw_evo_mons");
-                console.log(filteredw_evo_mons);
+                //console.log("filteredw_evo_mons");
+                //console.log(filteredw_evo_mons);
 
+                //Generating mats needed to be farmed
                 i = 0;
                 var mats_format = [[]];
                 while (i < filteredw_evo_mons.length){
@@ -223,18 +225,18 @@
                     var splitting = filteredw_evo_mons[i].split("::: ");
                     var t = 1;
                     var status = true;
-                    while (t < mats_format.length){
+                    while (t < mats_format.length){ //Checks if material already on array
                         if ("undefined" !== typeof mats_format[t]){
-                            if (mats_format[t][0] == splitting[1]){
+                            if (mats_format[t][0] == splitting[1]){ //Find index of material if it's on array
                                 status = false;
                                 break;
                             }
                         }
                         t++;
                     }
-                    if (status){
+                    if (status){ //If material is not found, create new entry
                         temparray.push(splitting[1]);
-                        temparray.push(1);// Change this for amount
+                        temparray.push(splitting[0].split("(")[1].split(")")[0]);
 
                         temparray.push(splitting[2] + ":::");
                         m = offsetseeker(temparray[0], mons_data);
@@ -247,7 +249,7 @@
                         temparray.push(splitting[0].split("(")[1].split(")")[0]);
                         mats_format.push(temparray);
                     }
-                    else{
+                    else{ //Else, use index to update material entry
                         mats_format[t][2] += splitting[2] + ":::";
 
                         m = offsetseeker(splitting[0].split("(")[0], mons_data);
@@ -255,6 +257,7 @@
 
                         m = offsetseeker(mats_format[t][0], mons_data);
                         mats_format[t][6] = mats_format[t][6] + ":::" + splitting[0].split("(")[1].split(")")[0];
+                        mats_format[t][1] = parseInt(mats_format[t][1]) + parseInt(splitting[0].split("(")[1].split(")")[0]);
                     }
                     i++;
                 }
