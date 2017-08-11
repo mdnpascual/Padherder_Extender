@@ -85,7 +85,7 @@
                 var max_c, min_c;
                 //Parse all user data monsters
                 while (i < parseInt(data_user.monsters.length)){
-                    if (data_user.monsters[i].target_evolution !== null){//Ignore monsters that has no planned evolutions in evo search
+                    if ((data_user.monsters[i].target_evolution !== null) && parseInt(data_user.monsters[i].priority) > 1){//Ignore monsters that has no planned evolutions in evo search
                         filter_mons.push(data_user.monsters[i]);
                     }
                     //Finding monster's skill parameters and compute how many skillup monsters are needed
