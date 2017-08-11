@@ -187,6 +187,7 @@
                                 var monsssssss_id = parseInt(data_evo_string.substring(n+1,o).substring(0,data_evo_string.substring(n+1,o).search(",")));
                                 if(!ignoreList.includes(monsssssss_id)){
                                     var p = 1;
+                                    var dungeon2push = '';
                                     while (p < lines.length){
                                         var splitmore = lines[p].split("::: ");
                                         var splitmoremore = splitmore[1].split(",");
@@ -194,13 +195,15 @@
                                         while (q < splitmoremore.length -1){
                                             var r = splitmoremore[q];
                                             if (r == data_evo_string.substring(n+1,o).split(",")[0]){
-                                                filteredw_evo_mons.push(filter_mons[i].target_evolution + "(" + data_evo_string.substring(n+1,o).split(",")[1] + ")" + "::: " + data_evo_string.substring(n+1,o).split(",")[0] + "::: " + splitmore[0] + "::: " + mons_data[offsetseeker(filter_mons[i].monster, mons_data)].name);
+                                                dungeon2push += splitmore[0] + "|||";
                                                 break;
                                             }
                                             q++;
                                         }
                                         p++;
                                     }
+                                    if (dungeon2push !== '')
+                                        filteredw_evo_mons.push(filter_mons[i].target_evolution + "(" + data_evo_string.substring(n+1,o).split(",")[1] + ")" + "::: " + data_evo_string.substring(n+1,o).split(",")[0] + "::: " + dungeon2push + "::: " + mons_data[offsetseeker(filter_mons[i].monster, mons_data)].name);
                                 }
                                 n--;
                             }
@@ -214,8 +217,8 @@
                     }while(filter_mons[i].monster != next_evo);
                     i++;
                 }
-                //console.log("filteredw_evo_mons");
-                //console.log(filteredw_evo_mons);
+                console.log("filteredw_evo_mons");
+                console.log(filteredw_evo_mons);
 
                 //Generating mats needed to be farmed
                 i = 0;
@@ -278,7 +281,7 @@
                 i = 1;
                 while (i < mats_format.length){
                     var stringappend = '<table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><img src="https://www.padherder.com/';
-                    stringappend += mats_format[i][3] + '" title="' + mats_format[i][2].replace(/:::/g, "&#10;") + '"' + 'alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">'; //img_url
+                    stringappend += mats_format[i][3] + '" title="' + mats_format[i][2].replace(/:::/g, "&#10;").replace(/\|\|\|/g, "&#10;").replace(/&#10;&#10;/g, "&#10;") + '"' + 'alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">'; //img_url
                     //count
                     stringappend += mats_format[i][1] + '</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table>';
                     html_string += stringappend;
