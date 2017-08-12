@@ -283,7 +283,7 @@
                 var html_string = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}.tooltip2 { position: relative;}.tooltip2 .tooltip2text { visibility: hidden; width: auto; background-color: black; border-style: solid; border-color: #ffffff; color: #fff; text-align: center; padding: 5px 20px; border-radius: 6px; position: absolute; z-index: 1;}.tooltip2:hover .tooltip2text { visibility: visible;}</style>';
                 i = 1;
                 while (i < mats_format.length){
-                    var stringappend = '<table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
+                    var stringappend = '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
                     var Hi = '<tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr>';
                     var Med = '<tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr>';
                     var Low = '<tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr>';
@@ -293,9 +293,9 @@
                     var split_prio = mats_format[i][7].split(":::");
                     var split_transition = mats_format[i][4].split(":::");
                     //PadX link
-                    stringappend += mats_format[i][0] + '" target="_blank" tabindex="-1"><img src="https://www.padherder.com/';
+                    stringappend += mats_format[i][0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">Found in these Dungeons:<br/>' + mats_format[i][2].replace(/:::/g, "<br>").replace(/\|\|\|/g, "<br>").replace(/<br><br>/g, "<br>") + '</span><img src="https://www.padherder.com/';
                     //img_url
-                    stringappend += mats_format[i][3] + '" title="' + mats_format[i][2].replace(/:::/g, "&#10;").replace(/\|\|\|/g, "&#10;").replace(/&#10;&#10;/g, "&#10;") + '"' + 'alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">';
+                    stringappend += mats_format[i][3] + '"alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">';
                     //count
                     stringappend += mats_format[i][1] + '</td> </tr> ';
                     //Arranging
@@ -316,12 +316,12 @@
                 //inject_this.innerHTML = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}</style><table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><img src="https://www.padherder.com/static/img/monsters/60x60/162.35dc01efa82a.png" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">0</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table><table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><img src="https://www.padherder.com/static/img/monsters/60x60/165.a23a17a7222a.png" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">0</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table>';
                 inject_this.innerHTML = html_string;
                 var list = getElementByXpath("//*[@id=\"container\"]/div[3]/div/p");
-                try{
-                    list.insertBefore(inject_this, list.childNodes[0]); //My Materials page
+                try{ //My Materials page
+                    list.insertBefore(inject_this, list.childNodes[0]);
                 }
-                catch(err){
-                    list = getElementByXpath("//*[@id=\"container\"]/div[4]/div"); //My Monster page
-                    list.insertBefore(inject_this, list.childNodes[0]); //My Materials page
+                catch(err){ //My Monster page
+                    list = getElementByXpath("//*[@id=\"container\"]/div[4]/div");
+                    list.insertBefore(inject_this, list.childNodes[0]);
                 }
             });
         }
