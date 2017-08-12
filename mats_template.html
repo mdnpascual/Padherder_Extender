@@ -1,9 +1,31 @@
-<!--Try using this tooltip https://www.webpagefx.com/blog/web-design/css-only-tooltips/-->
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
 .tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
 .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
 .tg .tg-0ord{text-align:right}
+.tooltip2 {
+    position: relative;
+}
+
+/* Tooltip text */
+.tooltip2 .tooltip2text {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+ 
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip2:hover .tooltip2text {
+    visibility: visible;
+}
 </style>
 <table class="tg" style="display:inline">
   <tr>
@@ -12,9 +34,9 @@
   <tr>
     <td class="tg-0ord" colspan="2">0</td>
   </tr>
-  <tr>
+  <tr class="tooltip2">
     <td class="tg-031e">H</td>
-    <td class="tg-0ord">0</td>
+    <td class="tg-0ord">0<span class="tooltip2text">Tooltip text</span></td>
   </tr>
   <tr>
     <td class="tg-031e">M</td>
