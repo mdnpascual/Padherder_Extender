@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  try to take over the world!
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -86,7 +86,7 @@
                 //Parse all user data monsters
                 while (i < parseInt(data_user.monsters.length)){
                     if ((data_user.monsters[i].target_evolution !== null) && parseInt(data_user.monsters[i].priority) > 1){//Ignore monsters that has no planned evolutions in evo search
-                        filter_mons.push(data_user.monsters[i]);
+                        filter_mons.push([data_user.monsters[i], data_user.monsters[i].priority]);
                     }
                     //Finding monster's skill parameters and compute how many skillup monsters are needed
                     var findstring = '"name":"';
@@ -147,8 +147,8 @@
                     }
                     i++;
                 }
-                ////console.log("filter_mons");
-                ////console.log(filter_mons);
+                console.log("filter_mons");
+                console.log(filter_mons);
                 ////console.log("filter_mons_need_skillup");
                 console.log("--------------Needs skillup--------------");
                 console.log("Format: Your_Monster_ID(amount_needed)|||Dungeon ::: Monster_ID_to_farm ::: Monster_name_to_farm");
@@ -156,12 +156,12 @@
                 i = 0;
                 while (i < parseInt(filter_mons.length)){
                     var j = 0;
-                    var next_evo = filter_mons[i].target_evolution;
+                    var next_evo = filter_mons[i][0].target_evolution;
                     do{
                         //Finding target_evo in string. (Searching backwards)
                         var n = data_evo_string.search('evolves_to":' + next_evo + '}');
                         if (n == -1){
-                            console.log("Monster: " + filter_mons[i].target_evolution + " not in padherder database");
+                            console.log("Monster: " + filter_mons[i][0].target_evolution + " not in padherder database");
                             break;
                         }
                         var findstring = data_evo_string.substring(n,n+5);
@@ -203,7 +203,7 @@
                                         p++;
                                     }
                                     if (dungeon2push !== '')
-                                        filteredw_evo_mons.push(filter_mons[i].target_evolution + "(" + data_evo_string.substring(n+1,o).split(",")[1] + ")" + "::: " + data_evo_string.substring(n+1,o).split(",")[0] + "::: " + dungeon2push + "::: " + mons_data[offsetseeker(filter_mons[i].monster, mons_data)].name);
+                                        filteredw_evo_mons.push(filter_mons[i][0].target_evolution + "(" + data_evo_string.substring(n+1,o).split(",")[1] + ")" + "::: " + data_evo_string.substring(n+1,o).split(",")[0] + "::: " + dungeon2push + "::: " + mons_data[offsetseeker(filter_mons[i][0].monster, mons_data)].name + "::: " + filter_mons[i][1]);
                                 }
                                 n--;
                             }
@@ -214,7 +214,7 @@
                             findstring = data_evo_string.substring(n,n+3);
                         }
                         next_evo = next_evoooo;
-                    }while(filter_mons[i].monster != next_evo);
+                    }while(filter_mons[i][0].monster != next_evo);
                     i++;
                 }
                 console.log("filteredw_evo_mons");
@@ -250,6 +250,7 @@
                         m = offsetseeker(temparray[0], mons_data);
                         temparray.push(mons_data[m].name);
                         temparray.push(splitting[0].split("(")[1].split(")")[0]);
+                        temparray.push(splitting[4]);
                         mats_format.push(temparray);
                     }
                     else{ //Else, use index to update material entry
@@ -261,6 +262,7 @@
                         m = offsetseeker(mats_format[t][0], mons_data);
                         mats_format[t][6] = mats_format[t][6] + ":::" + splitting[0].split("(")[1].split(")")[0];
                         mats_format[t][1] = parseInt(mats_format[t][1]) + parseInt(splitting[0].split("(")[1].split(")")[0]);
+                        mats_format[t][7] = mats_format[t][6] + ":::" + splitting[4];
                     }
                     i++;
                 }
@@ -274,18 +276,47 @@
                 console.log("[4]: Monster_Evo_transition(Delimiter: \":::\")");
                 console.log("[5]: Monster_name_to_farm");
                 console.log("[6]: Amount(Delimiter: \":::\")");
+                console.log("[7]: Priority");
                 console.log(mats_format);
 
                 //Create html for mats
-                var html_string = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}</style>';
+                var html_string = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}.tooltip2 { position: relative;}.tooltip2 .tooltip2text { visibility: hidden; width: auto; background-color: black; color: #fff; text-align: center; padding: 5px 20px; border-radius: 6px; position: absolute; z-index: 1;}.tooltip2:hover .tooltip2text { visibility: visible;}</style>';
                 i = 1;
                 while (i < mats_format.length){
                     var stringappend = '<table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
-                    stringappend += mats_format[i][0] + '" target="_blank" tabindex="-1"><img src="https://www.padherder.com/'; //PadX link
-                    stringappend += mats_format[i][3] + '" title="' + mats_format[i][2].replace(/:::/g, "&#10;").replace(/\|\|\|/g, "&#10;").replace(/&#10;&#10;/g, "&#10;") + '"' + 'alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">'; //img_url
+                    var Hi = '<tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr>';
+                    var Med = '<tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr>';
+                    var Low = '<tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr>';
+                    var Zero = '<tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr>';
+                    var arrange = '', tooltip = '';
+                    var split_count = mats_format[i][6].split(":::");
+                    var split_prio = mats_format[i][7].split(":::");
+                    var split_transition = mats_format[i][4].split(":::");
+                    //PadX link
+                    stringappend += mats_format[i][0] + '" target="_blank" tabindex="-1"><img src="https://www.padherder.com/';
+                    //img_url
+                    stringappend += mats_format[i][3] + '" title="' + mats_format[i][2].replace(/:::/g, "&#10;").replace(/\|\|\|/g, "&#10;").replace(/&#10;&#10;/g, "&#10;") + '"' + 'alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">';
                     //count
-                    stringappend += mats_format[i][1] + '</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table>';
-                    html_string += stringappend;
+                    stringappend += mats_format[i][1] + '</td> </tr> ';
+                    //Arranging
+                    if (mats_format[i][7] == 3){//should be contains
+                        Hi = '<tr class="tooltip2"> <td class="tg-031e">H</td> <td class="tg-0ord">';
+                        Hi += tooltipgen(split_count, split_prio, split_transition, 3);
+                    }
+                    else if(mats_format[i][7] == 2){
+                        Med = '<tr class="tooltip2"> <td class="tg-031e">M</td> <td class="tg-0ord">';
+                        Med += tooltipgen(split_count, split_prio, split_transition, 2);
+                    }
+                    else if(mats_format[i][7] == 1){
+                        Low = '<tr class="tooltip2"> <td class="tg-031e">L</td> <td class="tg-0ord">';
+                        Low += tooltipgen(split_count, split_prio, split_transition, 1);
+                    }
+                    else{
+                        Zero = '<tr class="tooltip2"> <td class="tg-031e">F</td> <td class="tg-0ord">';
+                        Zero += tooltipgen(split_count, split_prio, split_transition, 0);
+                    }
+                    arrange = Hi + Med + Low + Zero;
+                    html_string += stringappend + arrange;
                     i++;
                 }
                 //Inject html here
@@ -323,5 +354,18 @@
     }
     function getElementByXpath(path) {
         return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    }
+
+    function tooltipgen(split_count, split_prio, split_transition, prio){
+        var z = 0, count = 0;
+        var tooltip = '';
+        while (z < split_count.length){
+            if (split_prio[z] == prio){
+                count += parseInt(split_count[z]);
+                tooltip += split_count[z] + " for " + split_transition[z] + "&#10;";
+            }
+            z++;
+        }
+        return count + '<span class="tooltip2text">' + tooltip + '</span></td> </tr>';
     }
 })();
