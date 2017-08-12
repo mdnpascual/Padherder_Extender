@@ -280,8 +280,9 @@
                 var html_string = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}</style>';
                 i = 1;
                 while (i < mats_format.length){
-                    var stringappend = '<table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><img src="https://www.padherder.com/';
-                    stringappend += mats_format[i][3] + '" title="' + mats_format[i][2].replace(/:::/g, "&#10;").replace(/\|\|\|/g, "&#10;").replace(/&#10;&#10;/g, "&#10;") + '"' + 'alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">'; //img_url
+                    var stringappend = '<table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
+                    stringappend += mats_format[i][0] + '" target="_blank" tabindex="-1"><img src="https://www.padherder.com/'; //PadX link
+                    stringappend += mats_format[i][3] + '" title="' + mats_format[i][2].replace(/:::/g, "&#10;").replace(/\|\|\|/g, "&#10;").replace(/&#10;&#10;/g, "&#10;") + '"' + 'alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">'; //img_url
                     //count
                     stringappend += mats_format[i][1] + '</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table>';
                     html_string += stringappend;
