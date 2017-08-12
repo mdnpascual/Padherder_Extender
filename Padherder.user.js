@@ -72,8 +72,8 @@
             }));
             $.when(functionales[0], functionales[1], functionales[2], functionales[3]).done(function() {
                 //TODO: Use Data_user to deduct amount of mats to farm depending on how many is in the padherder count
-                console.log("data_user");
-                console.log(data_user);
+                //console.log("data_user");
+                //console.log(data_user);
                 ////console.log("data_evo");
                 ////console.log(data_evo);
                 ////console.log("mons_data");
@@ -147,8 +147,8 @@
                     }
                     i++;
                 }
-                console.log("filter_mons");
-                console.log(filter_mons);
+                //console.log("filter_mons");
+                //console.log(filter_mons);
                 ////console.log("filter_mons_need_skillup");
                 console.log("--------------Needs skillup--------------");
                 console.log("Format: Your_Monster_ID(amount_needed)|||Dungeon ::: Monster_ID_to_farm ::: Monster_name_to_farm");
@@ -217,8 +217,8 @@
                     }while(filter_mons[i][0].monster != next_evo);
                     i++;
                 }
-                console.log("filteredw_evo_mons");
-                console.log(filteredw_evo_mons);
+                //console.log("filteredw_evo_mons");
+                //console.log(filteredw_evo_mons);
 
                 //Generating mats needed to be farmed
                 i = 0;
@@ -280,7 +280,7 @@
                 console.log(mats_format);
 
                 //Create html for mats
-                var html_string = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}.tooltip2 { position: relative;}.tooltip2 .tooltip2text { visibility: hidden; width: auto; background-color: black; color: #fff; text-align: center; padding: 5px 20px; border-radius: 6px; position: absolute; z-index: 1;}.tooltip2:hover .tooltip2text { visibility: visible;}</style>';
+                var html_string = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}.tooltip2 { position: relative;}.tooltip2 .tooltip2text { visibility: hidden; width: auto; background-color: black; border-style: solid; border-color: #ffffff; color: #fff; text-align: center; padding: 5px 20px; border-radius: 6px; position: absolute; z-index: 1;}.tooltip2:hover .tooltip2text { visibility: visible;}</style>';
                 i = 1;
                 while (i < mats_format.length){
                     var stringappend = '<table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
@@ -299,22 +299,14 @@
                     //count
                     stringappend += mats_format[i][1] + '</td> </tr> ';
                     //Arranging
-                    if (mats_format[i][7] == 3){//should be contains
-                        Hi = '<tr class="tooltip2"> <td class="tg-031e">H</td> <td class="tg-0ord">';
-                        Hi += tooltipgen(split_count, split_prio, split_transition, 3);
-                    }
-                    else if(mats_format[i][7] == 2){
-                        Med = '<tr class="tooltip2"> <td class="tg-031e">M</td> <td class="tg-0ord">';
-                        Med += tooltipgen(split_count, split_prio, split_transition, 2);
-                    }
-                    else if(mats_format[i][7] == 1){
-                        Low = '<tr class="tooltip2"> <td class="tg-031e">L</td> <td class="tg-0ord">';
-                        Low += tooltipgen(split_count, split_prio, split_transition, 1);
-                    }
-                    else{
-                        Zero = '<tr class="tooltip2"> <td class="tg-031e">F</td> <td class="tg-0ord">';
-                        Zero += tooltipgen(split_count, split_prio, split_transition, 0);
-                    }
+                    if (mats_format[i][7].includes("3"))
+                        Hi = tooltipgen(split_count, split_prio, split_transition, 3, 'H');
+                    else if (mats_format[i][7].includes("2"))
+                        Med = tooltipgen(split_count, split_prio, split_transition, 2, 'M');
+                    else if (mats_format[i][7].includes("1"))
+                        Low = tooltipgen(split_count, split_prio, split_transition, 1, 'L');
+                    else
+                        Zero = tooltipgen(split_count, split_prio, split_transition, 0, 'F');
                     arrange = Hi + Med + Low + Zero;
                     html_string += stringappend + arrange;
                     i++;
@@ -356,7 +348,7 @@
         return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
     }
 
-    function tooltipgen(split_count, split_prio, split_transition, prio){
+    function tooltipgen(split_count, split_prio, split_transition, prio, letter){
         var z = 0, count = 0;
         var tooltip = '';
         while (z < split_count.length){
@@ -366,6 +358,6 @@
             }
             z++;
         }
-        return count + '<span class="tooltip2text">' + tooltip + '</span></td> </tr>';
+        return '<tr class="tooltip2"> <td class="tg-031e">' + letter + '</td> <td class="tg-0ord">' + count + '<span class="tooltip2text">' + tooltip + '</span></td> </tr>';
     }
 })();
