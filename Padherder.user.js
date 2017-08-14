@@ -266,7 +266,7 @@
                     }
                     i++;
                 }
-                ////console.log("mats_format");
+                /*console.log("mats_format");
                 console.log("--------------Materials needed to be farmed--------------");
                 console.log("Array Format: ");
                 console.log("[0]: Monster_ID_to_farm");
@@ -277,7 +277,7 @@
                 console.log("[5]: Monster_name_to_farm");
                 console.log("[6]: Amount(Delimiter: \":::\")");
                 console.log("[7]: Priority");
-                console.log(mats_format);
+                console.log(mats_format);*/
 
                 //Create html for mats
                 var html_string = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}.tooltip2 { position: relative;}.tooltip2 .tooltip2text { visibility: hidden; width: auto; background-color: black; border-style: solid; border-color: #ffffff; color: #fff; text-align: center; padding: 5px 20px; border-radius: 6px; position: absolute; z-index: 1;}.tooltip2:hover .tooltip2text { visibility: visible;}</style>';
@@ -293,7 +293,9 @@
                     var split_prio = mats_format[i][7].split(":::");
                     var split_transition = mats_format[i][4].split(":::");
                     //PadX link
-                    stringappend += mats_format[i][0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">Found in these Dungeons:<br/>' + mats_format[i][2].replace(/:::/g, "<br>").replace(/\|\|\|/g, "<br>").replace(/<br><br>/g, "<br>") + '</span><img src="https://www.padherder.com/';
+                    stringappend += mats_format[i][0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">Found in today\'s Dungeons:<br/>';
+                    //Dungeons
+                    stringappend += mats_format[i][2].replace(/:::/g, "<br>").replace(/\|\|\|/g, "<br>").replace(/<br><br>/g, "<br>") + '</span><img src="https://www.padherder.com/';
                     //img_url
                     stringappend += mats_format[i][3] + '"alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">';
                     //count
@@ -311,6 +313,47 @@
                     html_string += stringappend + arrange;
                     i++;
                 }
+                html_string += '<br><br>';
+                //Generate Skillup monsters to be farmed
+                i = 0;
+                var j = 1;
+                var prev = '';
+                var stringappend = '';
+                while (i < filter_mons_need_skillup.length){
+                    var splitting = filter_mons_need_skillup[i].split("|||");
+                    var splitting2 = splitting[1].split("::: ");
+                    prev = splitting2[1];
+                    if (j == 1){
+                        stringappend += '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
+                        var m = offsetseeker(splitting[0].split("(")[0], mons_data);
+                        //PadX link
+                        stringappend += splitting[0].split("(")[0] + '" target="_blank" tabindex="-1"><img src="https://www.padherder.com/';
+                        //img_url
+                        stringappend += mons_data[m].image60_href + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">';
+                        //count
+                        stringappend += splitting[0].split("(")[1].split(")")[0] + '</td> </tr>';
+                    }
+                    //PadX link
+                    stringappend += '<tr> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
+                    m = offsetseeker(splitting2[1], mons_data);
+                    //Tooltip (dungeons)
+                    stringappend += splitting2[0].split("(")[0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">';
+                    while (j < splitting.length - 1){
+                        splitting2 = splitting[j].split("::: ");
+                        if (splitting2[0].split("(")[0] == prev)
+                            stringappend += splitting2[0].split("(")[0] + '<br>';
+                        else{
+                            i--;
+                            break;
+                        }
+                        j++;
+                    }
+                    stringappend += '</span><img src="https://www.padherder.com/';
+                    //img_url
+                    stringappend += mons_data[m].image60_href + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">';
+                    i++;
+                }
+                html_string += stringappend;
                 //Inject html here
                 var inject_this = document.createElement("div");
                 //inject_this.innerHTML = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}</style><table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><img src="https://www.padherder.com/static/img/monsters/60x60/162.35dc01efa82a.png" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">0</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table><table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><img src="https://www.padherder.com/static/img/monsters/60x60/165.a23a17a7222a.png" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">0</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table>';
