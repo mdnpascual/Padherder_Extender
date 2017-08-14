@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      0.6
 // @description  try to take over the world!
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -313,7 +313,7 @@
                     html_string += stringappend + arrange;
                     i++;
                 }
-                html_string += '<br><br>';
+                //html_string += '<br><br>';
                 //Generate Skillup monsters to be farmed
                 i = 0;
                 var j = 1;
@@ -322,8 +322,8 @@
                 while (i < filter_mons_need_skillup.length){
                     var splitting = filter_mons_need_skillup[i].split("|||");
                     var splitting2 = splitting[1].split("::: ");
-                    prev = splitting2[1];
                     if (j == 1){
+                        prev = splitting2[1];
                         stringappend += '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
                         var m = offsetseeker(splitting[0].split("(")[0], mons_data);
                         //PadX link
@@ -331,26 +331,29 @@
                         //img_url
                         stringappend += mons_data[m].image60_href + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">';
                         //count
-                        stringappend += splitting[0].split("(")[1].split(")")[0] + '</td> </tr>';
+                        stringappend += splitting[0].split("(")[1].split(")")[0] + '</td> </tr> <tr> ';
                     }
                     //PadX link
-                    stringappend += '<tr> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
-                    m = offsetseeker(splitting2[1], mons_data);
+                    stringappend += '<tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
                     //Tooltip (dungeons)
-                    stringappend += splitting2[0].split("(")[0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">';
+                    stringappend += splitting2[1] + '" target="_blank" tabindex="-1"><span class="tooltip2text">';
                     while (j < splitting.length - 1){
                         splitting2 = splitting[j].split("::: ");
-                        if (splitting2[0].split("(")[0] == prev)
-                            stringappend += splitting2[0].split("(")[0] + '<br>';
+                        m = offsetseeker(splitting2[1], mons_data);
+                        if (splitting2[1] == prev)
+                            stringappend += splitting2[0] + '<br>';
                         else{
                             i--;
+                            prev = splitting2[1];
                             break;
                         }
                         j++;
                     }
+                    if (j > splitting.length - 2) //reset
+                        j = 1;
                     stringappend += '</span><img src="https://www.padherder.com/';
                     //img_url
-                    stringappend += mons_data[m].image60_href + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">';
+                    stringappend += mons_data[m].image60_href + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr>';
                     i++;
                 }
                 html_string += stringappend;
