@@ -1,7 +1,7 @@
 # Padherder_Extender
 Userscript that shows possible powerup/material monsters from descended dungeons in PadHerder site
 
-[put screenshot here]
+![put screenshot here](http://puu.sh/xaHl3/d3dba49c79.jpg)
 
 ## Planned Features
 
