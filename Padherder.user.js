@@ -150,9 +150,9 @@
                 //console.log("filter_mons");
                 //console.log(filter_mons);
                 ////console.log("filter_mons_need_skillup");
-                console.log("--------------Needs skillup--------------");
-                console.log("Format: Your_Monster_ID(amount_needed)|||Dungeon ::: Monster_ID_to_farm ::: Monster_name_to_farm");
-                console.log(filter_mons_need_skillup);
+                //console.log("--------------Needs skillup--------------");
+                //console.log("Format: Your_Monster_ID(amount_needed)|||Dungeon ::: Monster_ID_to_farm ::: Monster_name_to_farm");
+                //console.log(filter_mons_need_skillup);
                 i = 0;
                 while (i < parseInt(filter_mons.length)){
                     var j = 0;
@@ -240,13 +240,11 @@
                     if (status){ //If material is not found, create new entry
                         temparray.push(splitting[1]);
                         temparray.push(splitting[0].split("(")[1].split(")")[0]);
-
                         temparray.push(splitting[2] + ":::");
                         m = offsetseeker(temparray[0], mons_data);
                         temparray.push(mons_data[m].image60_href);
                         m = offsetseeker(splitting[0].split("(")[0], mons_data);
                         temparray.push(splitting[3] + " -> " + mons_data[m].name);
-
                         m = offsetseeker(temparray[0], mons_data);
                         temparray.push(mons_data[m].name);
                         temparray.push(splitting[0].split("(")[1].split(")")[0]);
@@ -255,10 +253,8 @@
                     }
                     else{ //Else, use index to update material entry
                         mats_format[t][2] += splitting[2] + ":::";
-
                         m = offsetseeker(splitting[0].split("(")[0], mons_data);
                         mats_format[t][4] += ":::" + splitting[3] + " -> " + mons_data[m].name;
-
                         m = offsetseeker(mats_format[t][0], mons_data);
                         mats_format[t][6] = mats_format[t][6] + ":::" + splitting[0].split("(")[1].split(")")[0];
                         mats_format[t][1] = parseInt(mats_format[t][1]) + parseInt(splitting[0].split("(")[1].split(")")[0]);
