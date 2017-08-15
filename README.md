@@ -5,6 +5,7 @@ Userscript that shows possible powerup/material monsters from descended dungeons
 
 ## Planned Features
 
+- Include Daily limited timed dungeons
 - Counts user's monster to be deducted to the amount of monsters needed to be farmed
 - Reduce dependency with Padherder API
 - Patch holes in the Padherder's database (missing or wrong data)
