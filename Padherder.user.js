@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.7
 // @description  try to take over the world!
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -319,6 +319,7 @@
                 var j = 1;
                 var prev = '';
                 var stringappend = '';
+                var img2use = '';
                 while (i < filter_mons_need_skillup.length){
                     var splitting = filter_mons_need_skillup[i].split("|||");
                     var splitting2 = splitting[1].split("::: ");
@@ -333,10 +334,15 @@
                         //count
                         stringappend += splitting[0].split("(")[1].split(")")[0] + '</td> </tr> <tr> ';
                     }
+                    else{
+                        splitting2 = splitting[j].split("::: ");
+                        m = offsetseeker(splitting2[1], mons_data);
+                    }
                     //PadX link
                     stringappend += '<tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
                     //Tooltip (dungeons)
                     stringappend += splitting2[1] + '" target="_blank" tabindex="-1"><span class="tooltip2text">';
+                    img2use = mons_data[offsetseeker(splitting2[1], mons_data)].image60_href;
                     while (j < splitting.length - 1){
                         splitting2 = splitting[j].split("::: ");
                         m = offsetseeker(splitting2[1], mons_data);
@@ -353,7 +359,7 @@
                         j = 1;
                     stringappend += '</span><img src="https://www.padherder.com/';
                     //img_url
-                    stringappend += mons_data[m].image60_href + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr>';
+                    stringappend += img2use + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr>';
                     i++;
                 }
                 html_string += stringappend;
