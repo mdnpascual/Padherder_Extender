@@ -9,8 +9,8 @@
 // @match        https://www.padherder.com/*
 // @require      http://userscripts-mirror.org/scripts/source/107941.user.js
 // @require      http://code.jquery.com/jquery-3.2.1.js
-// @downloadURL  https://github.com/mdnpascual/Padherder_Extender/raw/master/Padherder.user.js
-// @updateURL    https://github.com/mdnpascual/Padherder_Extender/raw/master/Padherder.user.js
+// @downloadURL  https://github.com/mdnpascual/Padherder_Extender/raw/master/Padherder_optimized.user.js
+// @updateURL    https://github.com/mdnpascual/Padherder_Extender/raw/master/Padherder_optimized.user.js
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @run-at       document-end
