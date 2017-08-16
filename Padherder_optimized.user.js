@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         Padherder
 // @namespace    http://tampermonkey.net/
-// @version      0.71
+// @version      0.72
 // @description  try to take over the world!
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -32,7 +32,7 @@
   }
   function y(f, c, e, b, g) {
     for (var l = 0, a = 0, d = ""; l < f.length;) {
-      c[l] == b && (a += parseInt(f[l]), d += f[l] + " for " + e[l] + "&#10;"), l++;
+      c[l] == b && (a += parseInt(f[l]), d += f[l] + " for " + e[l] + "<br>"), l++;
     }
     return '<tr class="tooltip2"> <td class="tg-031e">' + g + '</td> <td class="tg-0ord">' + a + '<span class="tooltip2text">' + d + "</span></td> </tr>";
   }
@@ -169,7 +169,7 @@
             b++;
           }
           c ? (g.push(e[1]), g.push(e[0].split("(")[1].split(")")[0]), g.push(e[2] + ":::"), c = p(g[0], f), g.push(f[c].image60_href), c = p(e[0].split("(")[0], f), g.push(e[3] + " -> " + f[c].name), c = p(g[0], f), g.push(f[c].name), g.push(e[0].split("(")[1].split(")")[0]), g.push(e[4]), a.push(g)) : (a[b][2] += e[2] + ":::", c = p(e[0].split("(")[0], f), a[b][4] += ":::" + e[3] + " -> " + f[c].name, p(a[b][0], f), a[b][6] = a[b][6] + ":::" + e[0].split("(")[1].split(")")[0], a[b][1] = parseInt(a[b][1]) + 
-          parseInt(e[0].split("(")[1].split(")")[0]), a[b][7] = a[b][6] + ":::" + e[4]);
+          parseInt(e[0].split("(")[1].split(")")[0]), a[b][7] = a[b][7] + ":::" + e[4]);
           d++;
         }
         g = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}.tooltip2 { position: relative;}.tooltip2 .tooltip2text { visibility: hidden; width: auto; background-color: black; border-style: solid; border-color: #ffffff; color: #fff; text-align: center; padding: 5px 20px; border-radius: 6px; position: absolute; z-index: 1;}.tooltip2:hover .tooltip2text { visibility: visible;}</style>';
