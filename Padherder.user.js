@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.72
+// @version      0.73
 // @description  try to take over the world!
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -72,8 +72,8 @@
             }));
             $.when(functionales[0], functionales[1], functionales[2], functionales[3]).done(function() {
                 //TODO: Use Data_user to deduct amount of mats to farm depending on how many is in the padherder count
-                //console.log("data_user");
-                //console.log(data_user);
+                console.log("data_user");
+                console.log(data_user);
                 ////console.log("data_evo");
                 ////console.log(data_evo);
                 ////console.log("mons_data");
@@ -118,7 +118,7 @@
                     }
                     min_c = active_skill_string.substring(n+15,o);
                     //only considering monsters that have priority of medium or higher (change: 1 -> 2(high only), 1 -> 0 (Zero excluded). 1 -> -1 (Everything)
-                    if (parseInt(data_user.monsters[i].priority) > 1 && parseInt(data_user.monsters[i].current_skill) < (max_c - min_c)){
+                    if (parseInt(data_user.monsters[i].priority) > 1 && parseInt(data_user.monsters[i].current_skill) < (max_c - min_c + 1)){
                         var enteredonce = false;
                         var skillupevo = "";
                         var j = 1;
@@ -130,7 +130,7 @@
                                 m = offsetseeker(splitmoremore[k], mons_data);
                                 if (mons_data[m].active_skill == mons_data[l].active_skill){
                                     if (!enteredonce)
-                                        skillupevo = skillupevo + (monsss_id + 1) + "(" + (max_c - min_c) + ")" + "|||" + splitmore[0] + "::: " + mons_data[m].id + "::: " + mons_data[m].name + "|||";
+                                        skillupevo = skillupevo + (monsss_id + 1) + "(" + ((max_c - min_c + 1) - data_user.monsters[i].current_skill) + ")" + "|||" + splitmore[0] + "::: " + mons_data[m].id + "::: " + mons_data[m].name + "|||";
                                     else
                                         skillupevo = skillupevo + splitmore[0] + "::: " + mons_data[m].id + "::: " + mons_data[m].name + "|||";
                                     enteredonce = true;
@@ -150,9 +150,9 @@
                 //console.log("filter_mons");
                 //console.log(filter_mons);
                 ////console.log("filter_mons_need_skillup");
-                console.log("--------------Needs skillup--------------");
-                console.log("Format: Your_Monster_ID(amount_needed)|||Dungeon ::: Monster_ID_to_farm ::: Monster_name_to_farm");
-                console.log(filter_mons_need_skillup);
+                //console.log("--------------Needs skillup--------------");
+                //console.log("Format: Your_Monster_ID(amount_needed)|||Dungeon ::: Monster_ID_to_farm ::: Monster_name_to_farm");
+                //console.log(filter_mons_need_skillup);
                 i = 0;
                 while (i < parseInt(filter_mons.length)){
                     var j = 0;
@@ -217,8 +217,8 @@
                     }while(filter_mons[i][0].monster != next_evo);
                     i++;
                 }
-                console.log("filteredw_evo_mons");
-                console.log(filteredw_evo_mons);
+                //console.log("filteredw_evo_mons");
+                //console.log(filteredw_evo_mons);
 
                 //Generating mats needed to be farmed
                 i = 0;
@@ -262,7 +262,7 @@
                     }
                     i++;
                 }
-                console.log("mats_format");
+                /*console.log("mats_format");
                 console.log("--------------Materials needed to be farmed--------------");
                 console.log("Array Format: ");
                 console.log("[0]: Monster_ID_to_farm");
@@ -273,7 +273,7 @@
                 console.log("[5]: Monster_name_to_farm");
                 console.log("[6]: Amount(Delimiter: \":::\")");
                 console.log("[7]: Priority");
-                console.log(mats_format);
+                console.log(mats_format);*/
 
                 //Create html for mats
                 var html_string = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}.tooltip2 { position: relative;}.tooltip2 .tooltip2text { visibility: hidden; width: auto; background-color: black; border-style: solid; border-color: #ffffff; color: #fff; text-align: center; padding: 5px 20px; border-radius: 6px; position: absolute; z-index: 1;}.tooltip2:hover .tooltip2text { visibility: visible;}</style>';
