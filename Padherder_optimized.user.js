@@ -1,7 +1,7 @@
 //Using Google Closure compiler
 
 // ==UserScript==
-// @name         Padherder_test
+// @name         Padherder
 // @namespace    http://tampermonkey.net/
 // @version      0.71
 // @description  try to take over the world!
