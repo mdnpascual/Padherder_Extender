@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.71
+// @version      0.72
 // @description  try to take over the world!
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -150,9 +150,9 @@
                 //console.log("filter_mons");
                 //console.log(filter_mons);
                 ////console.log("filter_mons_need_skillup");
-                //console.log("--------------Needs skillup--------------");
-                //console.log("Format: Your_Monster_ID(amount_needed)|||Dungeon ::: Monster_ID_to_farm ::: Monster_name_to_farm");
-                //console.log(filter_mons_need_skillup);
+                console.log("--------------Needs skillup--------------");
+                console.log("Format: Your_Monster_ID(amount_needed)|||Dungeon ::: Monster_ID_to_farm ::: Monster_name_to_farm");
+                console.log(filter_mons_need_skillup);
                 i = 0;
                 while (i < parseInt(filter_mons.length)){
                     var j = 0;
@@ -217,8 +217,8 @@
                     }while(filter_mons[i][0].monster != next_evo);
                     i++;
                 }
-                //console.log("filteredw_evo_mons");
-                //console.log(filteredw_evo_mons);
+                console.log("filteredw_evo_mons");
+                console.log(filteredw_evo_mons);
 
                 //Generating mats needed to be farmed
                 i = 0;
@@ -258,11 +258,11 @@
                         m = offsetseeker(mats_format[t][0], mons_data);
                         mats_format[t][6] = mats_format[t][6] + ":::" + splitting[0].split("(")[1].split(")")[0];
                         mats_format[t][1] = parseInt(mats_format[t][1]) + parseInt(splitting[0].split("(")[1].split(")")[0]);
-                        mats_format[t][7] = mats_format[t][6] + ":::" + splitting[4];
+                        mats_format[t][7] = mats_format[t][7] + ":::" + splitting[4];
                     }
                     i++;
                 }
-                /*console.log("mats_format");
+                console.log("mats_format");
                 console.log("--------------Materials needed to be farmed--------------");
                 console.log("Array Format: ");
                 console.log("[0]: Monster_ID_to_farm");
@@ -273,7 +273,7 @@
                 console.log("[5]: Monster_name_to_farm");
                 console.log("[6]: Amount(Delimiter: \":::\")");
                 console.log("[7]: Priority");
-                console.log(mats_format);*/
+                console.log(mats_format);
 
                 //Create html for mats
                 var html_string = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}.tooltip2 { position: relative;}.tooltip2 .tooltip2text { visibility: hidden; width: auto; background-color: black; border-style: solid; border-color: #ffffff; color: #fff; text-align: center; padding: 5px 20px; border-radius: 6px; position: absolute; z-index: 1;}.tooltip2:hover .tooltip2text { visibility: visible;}</style>';
@@ -407,7 +407,7 @@
         while (z < split_count.length){
             if (split_prio[z] == prio){
                 count += parseInt(split_count[z]);
-                tooltip += split_count[z] + " for " + split_transition[z] + "&#10;";
+                tooltip += split_count[z] + " for " + split_transition[z] + "<br>";
             }
             z++;
         }
