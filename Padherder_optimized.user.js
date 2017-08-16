@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.71
 // @description  try to take over the world!
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -18,10 +18,15 @@
 
 (function() {
   function p(f, c) {
-    for (var e = f; c[e].id != f;) {
-      if (e--, 0 > e) {
-        return console.log("wtf?"), -1;
+    var e = f;
+    try {
+      for (; c[e].id != f;) {
+        if (e--, 0 > e) {
+          return console.log("Monster ID: " + f + " not found in padherder database"), 2897;
+        }
       }
+    } catch (b) {
+      return console.log("Monster ID: " + f + " not found in padherder database"), 2898;
     }
     return e;
   }
