@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.73
+// @version      0.74
 // @description  try to take over the world!
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -363,12 +363,12 @@
                 var inject_this = document.createElement("div");
                 //inject_this.innerHTML = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}</style><table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><img src="https://www.padherder.com/static/img/monsters/60x60/162.35dc01efa82a.png" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">0</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table><table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><img src="https://www.padherder.com/static/img/monsters/60x60/165.a23a17a7222a.png" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">0</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table>';
                 inject_this.innerHTML = html_string;
-                var list = getElementByXpath("//*[@id=\"container\"]/div[3]/div/p");
+                var list = getElementByXpath("//*[@class=\"col-xs-12\"]/p");
                 try{ //My Materials page
                     list.insertBefore(inject_this, list.childNodes[0]);
                 }
                 catch(err){ //My Monster page
-                    list = getElementByXpath("//*[@id=\"container\"]/div[4]/div");
+                    list = getElementByXpath("//*[@id=\"edit-form\"]");
                     list.insertBefore(inject_this, list.childNodes[0]);
                 }
             });
