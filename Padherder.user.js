@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.71
 // @description  try to take over the world!
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -383,12 +383,17 @@
     function offsetseeker(start, array){
         var n = start;
         var m = n;
+        try{
         while(array[m].id != n){
             m--;
             if (m < 0){
-                console.log("wtf?");
-                return -1;
+                console.log("Monster ID: " + start + " not found in padherder database");
+                return 2897;
             }
+        }}
+        catch(err){
+            console.log("Monster ID: " + start + " not found in padherder database");
+            return 2898;
         }
         return m;
     }
