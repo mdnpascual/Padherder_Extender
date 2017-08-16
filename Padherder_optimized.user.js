@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         Padherder
 // @namespace    http://tampermonkey.net/
-// @version      0.73
+// @version      0.74
 // @description  try to take over the world!
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -210,11 +210,11 @@
         g += b;
         c = document.createElement("div");
         c.innerHTML = g;
-        e = document.evaluate('//*[@id="container"]/div[3]/div/p', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        e = document.evaluate('//*[@class="col-xs-12"]/p', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         try {
           e.insertBefore(c, e.childNodes[0]);
         } catch (G) {
-          e = document.evaluate('//*[@id="container"]/div[4]/div', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue, e.insertBefore(c, e.childNodes[0]);
+          e = document.evaluate('//*[@id="edit-form"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue, e.insertBefore(c, e.childNodes[0]);
         }
       });
     }
