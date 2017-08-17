@@ -3,8 +3,8 @@
 // ==UserScript==
 // @name         Padherder
 // @namespace    http://tampermonkey.net/
-// @version      0.74
-// @description  try to take over the world!
+// @version      0.75
+// @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
 // @require      http://userscripts-mirror.org/scripts/source/107941.user.js
@@ -17,10 +17,10 @@
 // ==/UserScript==
 
 (function() {
-  function r(d, p) {
+  function r(d, n) {
     var c = d;
     try {
-      for (; p[c].id != d;) {
+      for (; n[c].id != d;) {
         if (c--, 0 > c) {
           return console.log("Monster ID: " + d + " not found in padherder database"), 2897;
         }
@@ -30,13 +30,13 @@
     }
     return c;
   }
-  function y(d, p, c, k, n) {
+  function y(d, n, c, l, p) {
     for (var b = 0, m = 0, h = ""; b < d.length;) {
-      p[b] == k && (m += parseInt(d[b]), h += d[b] + " for " + c[b] + "<br>"), b++;
+      n[b] == l && (m += parseInt(d[b]), h += d[b] + " for " + c[b] + "<br>"), b++;
     }
-    return '<tr class="tooltip2"> <td class="tg-031e">' + n + '</td> <td class="tg-0ord">' + m + '<span class="tooltip2text">' + h + "</span></td> </tr>";
+    return '<tr class="tooltip2"> <td class="tg-031e">' + p + '</td> <td class="tg-0ord">' + m + '<span class="tooltip2text">' + h + "</span></td> </tr>";
   }
-  var z = (new Date((new Date).getTime() + -72E5)).getDay(), F = [147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 227, 234, 246, 247, 248, 249, 250, 251, 321, 797, 915, 916, 1002, 1085, 1086, 1087, 1176, 1294, 1295], t = [], A = GM_getValue("date_sync", -1), E, w, B, l = [], n, k, u = [], C = [], D = [], d = [], v;
+  var z = (new Date((new Date).getTime() + -72E5)).getDay(), F = [147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 227, 234, 246, 247, 248, 249, 250, 251, 321, 797, 915, 916, 1002, 1085, 1086, 1087, 1176, 1294, 1295], t = [], A = GM_getValue("date_sync", -1), E, w, B, k = [], p, l, u = [], C = [], D = [], d = [], v;
   t.push($.get("https://gist.githubusercontent.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440/raw/file1.txt", function(d) {
     w = d.split("\n");
     A = w[0];
@@ -51,26 +51,28 @@
     } else {
       A == z && (w = B);
       var t = document.evaluate('//*[@id="username-dropdown"]/span', document, null, XPathResult.ANY_TYPE, null).iterateNext();
-      l.push($.get("https://www.padherder.com/user-api/user/" + t.textContent + "/", function(d) {
-        n = d;
+      k.push($.get("https://www.padherder.com/user-api/user/" + t.textContent + "/", function(d) {
+        p = d;
       }));
-      l.push($.get("https://www.padherder.com/api/evolutions/", function(d) {
-        k = JSON.stringify(d);
+      k.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/evolutions.json", function(d) {
+        JSON.parse(d);
+        l = d;
       }));
-      l.push($.get("https://www.padherder.com/api/monsters/", function(k) {
-        d = k;
+      k.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/monsters.json", function(n) {
+        d = JSON.parse(n);
       }));
-      l.push($.get("https://www.padherder.com/api/active_skills/", function(d) {
-        v = JSON.stringify(d);
+      k.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/active_skills.json", function(d) {
+        JSON.parse(d);
+        v = d;
       }));
-      $.when(l[0], l[1], l[2], l[3]).done(function() {
-        var p;
+      $.when(k[0], k[1], k[2], k[3]).done(function() {
+        var n;
         console.log("data_user");
-        console.log(n);
-        for (var c = 0, q, l; c < parseInt(n.monsters.length);) {
-          null !== n.monsters[c].target_evolution && 1 < parseInt(n.monsters[c].priority) && u.push([n.monsters[c], n.monsters[c].priority]);
+        console.log(p);
+        for (var c = 0, q, k; c < parseInt(p.monsters.length);) {
+          null !== p.monsters[c].target_evolution && 1 < parseInt(p.monsters[c].priority) && u.push([p.monsters[c], p.monsters[c].priority]);
           var b = '"name":"';
-          var m = null == n.monsters[c].target_evolution ? parseInt(n.monsters[c].monster) - 1 : parseInt(n.monsters[c].target_evolution) - 1;
+          var m = null == p.monsters[c].target_evolution ? parseInt(p.monsters[c].monster) - 1 : parseInt(p.monsters[c].target_evolution) - 1;
           var h = r(m + 1, d);
           var e = b;
           var a = d[h].active_skill;
@@ -90,20 +92,20 @@
             for (g = a; '"min_cooldown":' !== b;) {
               a--, b = v.substring(a, a + 15);
             }
-            l = v.substring(a + 15, g);
-            if (1 < parseInt(n.monsters[c].priority) && parseInt(n.monsters[c].current_skill) < q - l + 1) {
+            k = v.substring(a + 15, g);
+            if (1 < parseInt(p.monsters[c].priority) && parseInt(p.monsters[c].current_skill) < q - k + 1) {
               var t = !1, x = "";
               for (a = 1; a < w.length;) {
                 var f = w[a].split("::: ");
                 b = f[1].split(",");
-                for (p = 0; p < b.length - 1;) {
-                  e = r(b[p], d);
+                for (n = 0; n < b.length - 1;) {
+                  e = r(b[n], d);
                   if (d[e].active_skill == d[h].active_skill) {
-                    x = t ? x + f[0] + "::: " + d[e].id + "::: " + d[e].name + "|||" : x + (m + 1) + "(" + (q - l + 1 - n.monsters[c].current_skill) + ")|||" + f[0] + "::: " + d[e].id + "::: " + d[e].name + "|||";
+                    x = t ? x + f[0] + "::: " + d[e].id + "::: " + d[e].name + "|||" : x + (m + 1) + "(" + (q - k + 1 - p.monsters[c].current_skill) + ")|||" + f[0] + "::: " + d[e].id + "::: " + d[e].name + "|||";
                     t = !0;
                     break;
                   }
-                  p++;
+                  n++;
                 }
                 a++;
               }
@@ -115,30 +117,30 @@
         for (c = 0; c < parseInt(u.length);) {
           f = u[c][0].target_evolution;
           do {
-            a = k.search('evolves_to":' + f + "}");
+            a = l.search('evolves_to":' + f + "}");
             if (-1 == a) {
               console.log("Monster: " + u[c][0].target_evolution + " not in padherder database");
               break;
             }
-            for (b = k.substring(a, a + 5); '":[{"' !== b;) {
-              a--, b = k.substring(a, a + 5);
+            for (b = l.substring(a, a + 5); '":[{"' !== b;) {
+              a--, b = l.substring(a, a + 5);
             }
             e = a - 1;
-            for (b = k.substring(e, e + 4); '}],"' !== b;) {
-              e--, b = k.substring(e, e + 4);
+            for (b = l.substring(e, e + 4); '}],"' !== b;) {
+              e--, b = l.substring(e, e + 4);
             }
-            e = k.substring(e + 4, a);
-            a = k.search('evolves_to":' + f);
-            for (b = k.substring(a, a + 5); ":[[" !== b;) {
+            e = l.substring(e + 4, a);
+            a = l.search('evolves_to":' + f);
+            for (b = l.substring(a, a + 5); ":[[" !== b;) {
               if ("[" == b.charAt(0)) {
-                b = parseInt(k.substring(a + 1, g).substring(0, k.substring(a + 1, g).search(",")));
+                b = parseInt(l.substring(a + 1, g).substring(0, l.substring(a + 1, g).search(",")));
                 if (!F.includes(b)) {
                   m = 1;
                   for (h = ""; m < w.length;) {
                     f = w[m].split("::: ");
                     b = f[1].split(",");
                     for (q = 0; q < b.length - 1;) {
-                      if (b[q] == k.substring(a + 1, g).split(",")[0]) {
+                      if (b[q] == l.substring(a + 1, g).split(",")[0]) {
                         h += f[0] + "|||";
                         break;
                       }
@@ -146,14 +148,14 @@
                     }
                     m++;
                   }
-                  "" !== h && D.push(u[c][0].target_evolution + "(" + k.substring(a + 1, g).split(",")[1] + ")::: " + k.substring(a + 1, g).split(",")[0] + "::: " + h + "::: " + d[r(u[c][0].monster, d)].name + "::: " + u[c][1]);
+                  "" !== h && D.push(u[c][0].target_evolution + "(" + l.substring(a + 1, g).split(",")[1] + ")::: " + l.substring(a + 1, g).split(",")[0] + "::: " + h + "::: " + d[r(u[c][0].monster, d)].name + "::: " + u[c][1]);
                 }
                 a--;
               } else {
                 "]" == b.charAt(0) && (g = a);
               }
               a--;
-              b = k.substring(a, a + 3);
+              b = l.substring(a, a + 3);
             }
             f = e;
           } while (u[c][0].monster != f);
@@ -177,9 +179,9 @@
         }
         g = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}.tooltip2 { position: relative;}.tooltip2 .tooltip2text { visibility: hidden; width: auto; background-color: black; border-style: solid; border-color: #ffffff; color: #fff; text-align: center; padding: 5px 20px; border-radius: 6px; position: absolute; z-index: 1;}.tooltip2:hover .tooltip2text { visibility: visible;}</style>';
         for (c = 1; c < a.length;) {
-          b = '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=', e = '<tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr>', f = '<tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr>', m = '<tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr>', h = '<tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr>', q = a[c][6].split(":::"), p = a[c][7].split(":::"), 
-          l = a[c][4].split(":::"), b += a[c][0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">Found in today\'s Dungeons:<br/>', b += a[c][2].replace(/:::/g, "<br>").replace(/\|\|\|/g, "<br>").replace(/<br><br>/g, "<br>") + '</span><img src="https://www.padherder.com/', b += a[c][3] + '"alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">', b += a[c][1] + "</td> </tr> ", a[c][7].includes("3") ? e = y(q, p, l, 3, "H") : a[c][7].includes("2") ? 
-          f = y(q, p, l, 2, "M") : a[c][7].includes("1") ? m = y(q, p, l, 1, "L") : h = y(q, p, l, 0, "F"), g += b + (e + f + m + h), c++;
+          b = '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=', e = '<tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr>', f = '<tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr>', m = '<tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr>', h = '<tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr>', q = a[c][6].split(":::"), n = a[c][7].split(":::"), 
+          k = a[c][4].split(":::"), b += a[c][0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">Found in today\'s Dungeons:<br/>', b += a[c][2].replace(/:::/g, "<br>").replace(/\|\|\|/g, "<br>").replace(/<br><br>/g, "<br>") + '</span><img src="https://www.padherder.com/', b += a[c][3] + '"alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">', b += a[c][1] + "</td> </tr> ", a[c][7].includes("3") ? e = y(q, n, k, 3, "H") : a[c][7].includes("2") ? 
+          f = y(q, n, k, 2, "M") : a[c][7].includes("1") ? m = y(q, n, k, 1, "L") : h = y(q, n, k, 0, "F"), g += b + (e + f + m + h), c++;
         }
         c = 0;
         a = 1;
