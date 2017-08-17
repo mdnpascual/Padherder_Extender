@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.74
-// @description  try to take over the world!
+// @version      0.75
+// @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
 // @require      http://userscripts-mirror.org/scripts/source/107941.user.js
@@ -59,16 +59,16 @@
             functionales.push($.get("https://www.padherder.com/user-api/user/" + username.textContent + "/", function( padx_scraped ) {
                 data_user = padx_scraped;
             }));
-            functionales.push($.get("https://www.padherder.com/api/evolutions/", function( padx_scraped ) {
-                data_evo = padx_scraped;
-                data_evo_string = JSON.stringify(padx_scraped);
+            functionales.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/evolutions.json", function( padx_scraped ) {
+                data_evo = JSON.parse(padx_scraped);
+                data_evo_string = padx_scraped;
             }));
-            functionales.push($.get("https://www.padherder.com/api/monsters/", function( padx_scraped ) {
-                mons_data = padx_scraped;
+            functionales.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/monsters.json", function( padx_scraped ) {
+                mons_data = JSON.parse(padx_scraped);
             }));
-            functionales.push($.get("https://www.padherder.com/api/active_skills/", function( padx_scraped ) {
-                active_skill = padx_scraped;
-                active_skill_string = JSON.stringify(padx_scraped);
+            functionales.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/active_skills.json", function( padx_scraped ) {
+                active_skill = JSON.parse(padx_scraped);
+                active_skill_string = padx_scraped;
             }));
             $.when(functionales[0], functionales[1], functionales[2], functionales[3]).done(function() {
                 //TODO: Use Data_user to deduct amount of mats to farm depending on how many is in the padherder count
