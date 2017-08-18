@@ -12,3 +12,8 @@ Userscript that shows possible powerup/material monsters from descended dungeons
 - Option page to change monster priority to only be considered
 
 under the hood: https://gist.github.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440
+
+### TODO
+
+- Fix userscipt breaking when Tyrra is in user's padherder box
+- Possibly apply this trick for non-chached .json: https://stackoverflow.com/questions/30109626/how-do-i-prevent-require-from-caching-external-js-scripts
