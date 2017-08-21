@@ -72,8 +72,8 @@
             }));
             $.when(functionales[0], functionales[1], functionales[2], functionales[3]).done(function() {
                 //TODO: Use Data_user to deduct amount of mats to farm depending on how many is in the padherder count
-                console.log("data_user");
-                console.log(data_user);
+                //console.log("data_user");
+                //console.log(data_user);
                 ////console.log("data_evo");
                 ////console.log(data_evo);
                 ////console.log("mons_data");
@@ -299,9 +299,9 @@
                     //Arranging
                     if (mats_format[i][7].includes("3"))
                         Hi = tooltipgen(split_count, split_prio, split_transition, 3, 'H');
-                    else if (mats_format[i][7].includes("2"))
+                    if (mats_format[i][7].includes("2"))
                         Med = tooltipgen(split_count, split_prio, split_transition, 2, 'M');
-                    else if (mats_format[i][7].includes("1"))
+                    if (mats_format[i][7].includes("1"))
                         Low = tooltipgen(split_count, split_prio, split_transition, 1, 'L');
                     else
                         Zero = tooltipgen(split_count, split_prio, split_transition, 0, 'F');
