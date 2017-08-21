@@ -6,8 +6,6 @@
 // @author       MDuh
 // @match        http://puzzledragonx.com/
 // @require      http://userscripts-mirror.org/scripts/source/107941.user.js
-// @downloadURL  https://github.com/mdnpascual/Padherder_Extender/raw/master/Padx.user.js
-// @updateURL    https://github.com/mdnpascual/Padherder_Extender/raw/master/Padx.user.js
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @grant        GM_xmlhttpRequest
@@ -42,7 +40,7 @@
                 url: 'https://api.github.com/authorizations',
                 type: 'POST',
                 beforeSend: function(xhr) {
-                    xhr.setRequestHeader("Authorization", "Basic " + btoa("USERNAME:PASSWORD"));
+                    xhr.setRequestHeader("Authorization", "Basic " + btoa("padxExtender:I'm6Barbi3Gurl"));
                 },
                 data: '{"scopes":["gist"],"note":"PadxExtender daily database"}'
             }).done(function(response) {
@@ -175,7 +173,7 @@
                         url: 'https://api.github.com/gists/e11935cf82505acbdd2b6e03a8cfe440',
                         type: 'PATCH',
                         beforeSend: function(xhr) {
-                            xhr.setRequestHeader("Authorization", "token " + atob("ZDVhZWNlYTEwYmE0MTI4MmE3MjE5YzQxNWVjNjM4MDg3MjlkYWI5NA=="));
+                            xhr.setRequestHeader("Authorization", "token " + atob("fuckoff")); //See private repo for updated access token
                         },
                         data: JSON.stringify({"description": "PadxExtender daily database","public": true,"files": {"file1.txt": {"content": combined + outputStringarr.join("\n") }}})
                     }).done(function(response) {
