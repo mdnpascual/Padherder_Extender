@@ -40,7 +40,7 @@
                 url: 'https://api.github.com/authorizations',
                 type: 'POST',
                 beforeSend: function(xhr) {
-                    xhr.setRequestHeader("Authorization", "Basic " + btoa("padxExtender:I'm6Barbi3Gurl"));
+                    xhr.setRequestHeader("Authorization", "Basic " + btoa("USERNAME:PASSWORD"));
                 },
                 data: '{"scopes":["gist"],"note":"PadxExtender daily database"}'
             }).done(function(response) {
