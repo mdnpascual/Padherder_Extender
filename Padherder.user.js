@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.75
+// @version      0.76
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -303,7 +303,7 @@
                         Med = tooltipgen(split_count, split_prio, split_transition, 2, 'M');
                     if (mats_format[i][7].includes("1"))
                         Low = tooltipgen(split_count, split_prio, split_transition, 1, 'L');
-                    else
+                    if (mats_format[i][7].includes("0"))
                         Zero = tooltipgen(split_count, split_prio, split_transition, 0, 'F');
                     arrange = Hi + Med + Low + Zero;
                     html_string += stringappend + arrange;
@@ -383,6 +383,8 @@
     function offsetseeker(start, array){
         var n = start;
         var m = n;
+        if (m > array.length)
+            m = array.length - 1;
         try{
         while(array[m].id != n){
             m--;
