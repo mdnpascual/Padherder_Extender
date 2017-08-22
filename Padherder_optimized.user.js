@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         Padherder
 // @namespace    http://tampermonkey.net/
-// @version      0.76
+// @version      0.77
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -17,204 +17,215 @@
 // ==/UserScript==
 
 (function() {
-  function p(f, c) {
-    var e = f;
+  function n(g, c) {
+    var e = g;
     e > c.length && (e = c.length - 1);
     try {
-      for (; c[e].id != f;) {
+      for (; c[e].id != g;) {
         if (e--, 0 > e) {
-          return console.log("Monster ID: " + f + " not found in padherder database"), 2897;
+          return console.log("Monster ID: " + g + " not found in padherder database"), 2897;
         }
       }
-    } catch (b) {
-      return console.log("Monster ID: " + f + " not found in padherder database"), 2898;
+    } catch (a) {
+      return console.log("Monster ID: " + g + " not found in padherder database"), 2898;
     }
     return e;
   }
-  function y(f, c, e, b, g) {
-    for (var l = 0, a = 0, d = ""; l < f.length;) {
-      c[l] == b && (a += parseInt(f[l]), d += f[l] + " for " + e[l] + "<br>"), l++;
+  function y(g, c, e, a, f) {
+    for (var h = 0, l = 0, b = ""; h < g.length;) {
+      c[h] == a && (l += parseInt(g[h]), b += g[h] + " for " + e[h] + "<br>"), h++;
     }
-    return '<tr class="tooltip2"> <td class="tg-031e">' + g + '</td> <td class="tg-0ord">' + a + '<span class="tooltip2text">' + d + "</span></td> </tr>";
+    return '<tr class="tooltip2"> <td class="tg-031e">' + f + '</td> <td class="tg-0ord">' + l + '<span class="tooltip2text">' + b + "</span></td> </tr>";
   }
-  var z = (new Date((new Date).getTime() + -72E5)).getDay(), F = [147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 227, 234, 246, 247, 248, 249, 250, 251, 321, 797, 915, 916, 1002, 1085, 1086, 1087, 1176, 1294, 1295], t = [], A = GM_getValue("date_sync", -1), E, w, B, k = [], q, m, u = [], C = [], D = [], f = [], v;
-  t.push($.get("https://gist.githubusercontent.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440/raw/file1.txt", function(f) {
-    w = f.split("\n");
-    A = w[0];
+  function F(g) {
+    return g.sort().filter(function(c, e, a) {
+      return !e || c != a[e - 1];
+    });
+  }
+  var z = (new Date((new Date).getTime() + -72E5)).getDay(), G = [147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 227, 234, 246, 247, 248, 249, 250, 251, 321, 797, 915, 916, 1002, 1085, 1086, 1087, 1176, 1294, 1295], H = [2006, 1839, 1712, 1536, 599, 3015, 2805, 2739, 2637, 2184, 2092, 1252, 2926, 2722, 2398, 2008, 1750, 1590, 1272, 1225, 1210, 1090, 984, 228, 839, 763, 273, 2391, 1461, 1841, 1737, 597, 
+  1473, 3221, 2277, 2182, 1602, 1532, 1458, 1307, 1208, 2383, 2263, 2104, 1713, 1273, 1227, 1091, 835, 765, 434, 275, 3074, 2808, 1945, 2807, 1189, 2738, 1223, 1843, 2987, 2838, 2754], I = ["565:::566", 1838, "682:::683", "598:::599", 598, 3014, 2804, "822:::229:::99:::98", 2636, 2183, 2091, 1251, 2978, 2721, 2397, 2007, 1749, 1589, "316:::79:::78", 1224, "399:::398", "211:::23:::22:::21", "512:::107:::106", 182, 838, 762, 272, "1461:::1460", 1460, 1840, "597:::596", 596, "683:::682", 3220, 2276, 
+  2181, 1167, 1531, 783, 1306, "513:::222:::221", 2382, 2262, 2103, 738, "317:::81:::80", 1226, "212:::26:::25:::24", "834:::833:::832", 764, 433, 274, 3073, "1945:::1944", 1944, "1189:::1188", 1188, "1223:::1222", 1222, 1842, 2986, 2837, 2753], q = [], A = GM_getValue("date_sync", -1), E, x, B, m = [], r, l, v = [], C = [], D = [], g = [], w;
+  q.push($.get("https://gist.githubusercontent.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440/raw/file1.txt", function(g) {
+    x = g.split("\n");
+    A = x[0];
   }));
-  t.push($.get("https://gist.githubusercontent.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440/raw/", function(f) {
-    B = f.split("\n");
+  q.push($.get("https://gist.githubusercontent.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440/raw/", function(g) {
+    B = g.split("\n");
     E = B[0];
   }));
-  $.when(t[0], t[1]).done(function() {
+  $.when(q[0], q[1]).done(function() {
     if (A != z && E != z) {
       alert("Padx database not updated for today, please visit puzzledragonx.com/ and let the script update the database");
     } else {
-      A == z && (w = B);
-      var t = document.evaluate('//*[@id="username-dropdown"]/span', document, null, XPathResult.ANY_TYPE, null).iterateNext();
-      k.push($.get("https://www.padherder.com/user-api/user/" + t.textContent + "/", function(c) {
-        q = c;
+      A == z && (x = B);
+      var q = document.evaluate('//*[@id="username-dropdown"]/span', document, null, XPathResult.ANY_TYPE, null).iterateNext();
+      m.push($.get("https://www.padherder.com/user-api/user/" + q.textContent + "/", function(c) {
+        r = c;
       }));
-      k.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/evolutions.json", function(c) {
+      m.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/evolutions.json", function(c) {
         JSON.parse(c);
-        m = c;
+        l = c;
       }));
-      k.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/monsters.json", function(c) {
-        f = JSON.parse(c);
+      m.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/monsters.json", function(c) {
+        g = JSON.parse(c);
       }));
-      k.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/active_skills.json", function(c) {
+      m.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/active_skills.json", function(c) {
         JSON.parse(c);
-        v = c;
+        w = c;
       }));
-      $.when(k[0], k[1], k[2], k[3]).done(function() {
-        for (var c, e, b, g, l, a, d = 0, r, k; d < parseInt(q.monsters.length);) {
-          null !== q.monsters[d].target_evolution && 1 < parseInt(q.monsters[d].priority) && u.push([q.monsters[d], q.monsters[d].priority]);
-          b = '"name":"';
-          var n = null == q.monsters[d].target_evolution ? parseInt(q.monsters[d].monster) - 1 : parseInt(q.monsters[d].target_evolution) - 1;
-          var h = p(n + 1, f);
-          c = b;
-          a = f[h].active_skill;
+      $.when(m[0], m[1], m[2], m[3]).done(function() {
+        for (var c, e, a, f, h, p, b, d = 0, t, u; d < parseInt(r.monsters.length);) {
+          null !== r.monsters[d].target_evolution && 1 < parseInt(r.monsters[d].priority) && v.push([r.monsters[d], r.monsters[d].priority]);
+          a = '"name":"';
+          e = null == r.monsters[d].target_evolution ? parseInt(r.monsters[d].monster) - 1 : parseInt(r.monsters[d].target_evolution) - 1;
+          var k = n(e + 1, g);
+          c = a;
+          a = g[k].active_skill;
           a = null === a ? null : a.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-          b = c + a + '"';
-          a = v.search(b);
-          if (-1 == a) {
-            console.log("Skill: " + b + f[h].active_skill + " not in padherder database");
+          a = c + a + '"';
+          b = w.search(a);
+          if (-1 == b) {
+            console.log("Skill: " + a + g[k].active_skill + " not in padherder database");
           } else {
-            g = a - 2;
-            for (b = v.substring(a, a + 15); '"max_cooldown":' !== b;) {
-              a--, b = v.substring(a, a + 15);
+            h = b - 2;
+            for (a = w.substring(b, b + 15); '"max_cooldown":' !== a;) {
+              b--, a = w.substring(b, b + 15);
             }
-            for (r = v.substring(a + 15, g + 1); ',"effect":"' !== b;) {
-              a--, b = v.substring(a, a + 11);
+            for (t = w.substring(b + 15, h + 1); ',"effect":"' !== a;) {
+              b--, a = w.substring(b, b + 11);
             }
-            for (g = a; '"min_cooldown":' !== b;) {
-              a--, b = v.substring(a, a + 15);
+            for (h = b; '"min_cooldown":' !== a;) {
+              b--, a = w.substring(b, b + 15);
             }
-            k = v.substring(a + 15, g);
-            if (1 < parseInt(q.monsters[d].priority) && parseInt(q.monsters[d].current_skill) < r - k + 1) {
-              var t = !1, x = "";
-              for (a = 1; a < w.length;) {
-                e = w[a].split("::: ");
-                b = e[1].split(",");
-                for (l = 0; l < b.length - 1;) {
-                  c = p(b[l], f);
-                  if (f[c].active_skill == f[h].active_skill) {
-                    x = t ? x + e[0] + "::: " + f[c].id + "::: " + f[c].name + "|||" : x + (n + 1) + "(" + (r - k + 1 - q.monsters[d].current_skill) + ")|||" + e[0] + "::: " + f[c].id + "::: " + f[c].name + "|||";
-                    t = !0;
+            u = w.substring(b + 15, h);
+            if (1 < parseInt(r.monsters[d].priority) && parseInt(r.monsters[d].current_skill) < t - u + 1) {
+              var m = !1, q = "";
+              for (b = 1; b < x.length;) {
+                f = x[b].split("::: ");
+                a = f[1].split(",");
+                for (p = 0; p < a.length - 1;) {
+                  c = n(a[p], g);
+                  if (g[c].active_skill == g[k].active_skill) {
+                    q = m ? q + f[0] + "::: " + g[c].id + "::: " + g[c].name + "|||" : q + (e + 1) + "(" + (t - u + 1 - r.monsters[d].current_skill) + ")|||" + f[0] + "::: " + g[c].id + "::: " + g[c].name + "|||";
+                    m = !0;
                     break;
                   }
-                  l++;
+                  p++;
                 }
-                a++;
+                b++;
               }
-              "" !== x && C.push(x);
+              "" !== q && C.push(q);
             }
           }
           d++;
         }
-        for (d = 0; d < parseInt(u.length);) {
-          e = u[d][0].target_evolution;
+        for (d = 0; d < parseInt(v.length);) {
+          f = v[d][0].target_evolution;
           do {
-            a = m.search('evolves_to":' + e + "}");
-            if (-1 == a) {
-              console.log("Monster: " + u[d][0].target_evolution + " not in padherder database");
+            b = l.search('evolves_to":' + f + "}");
+            if (-1 == b) {
+              console.log("Monster: " + v[d][0].target_evolution + " not in padherder database");
               break;
             }
-            for (b = m.substring(a, a + 5); '":[{"' !== b;) {
-              a--, b = m.substring(a, a + 5);
+            for (a = l.substring(b, b + 5); '":[{"' !== a;) {
+              b--, a = l.substring(b, b + 5);
             }
-            c = a - 1;
-            for (b = m.substring(c, c + 4); '}],"' !== b;) {
-              c--, b = m.substring(c, c + 4);
+            c = b - 1;
+            for (a = l.substring(c, c + 4); '}],"' !== a;) {
+              c--, a = l.substring(c, c + 4);
             }
-            c = m.substring(c + 4, a);
-            a = m.search('evolves_to":' + e);
-            for (b = m.substring(a, a + 5); ":[[" !== b;) {
-              if ("[" == b.charAt(0)) {
-                b = parseInt(m.substring(a + 1, g).substring(0, m.substring(a + 1, g).search(",")));
-                if (!F.includes(b)) {
-                  n = 1;
-                  for (h = ""; n < w.length;) {
-                    e = w[n].split("::: ");
-                    b = e[1].split(",");
-                    for (r = 0; r < b.length - 1;) {
-                      if (b[r] == m.substring(a + 1, g).split(",")[0]) {
-                        h += e[0] + "|||";
+            c = l.substring(c + 4, b);
+            b = l.search('evolves_to":' + f);
+            for (a = l.substring(b, b + 5); ":[[" !== a;) {
+              if ("[" == a.charAt(0)) {
+                a = parseInt(l.substring(b + 1, h).substring(0, l.substring(b + 1, h).search(",")));
+                if (!G.includes(a)) {
+                  e = 1;
+                  for (k = ""; e < x.length;) {
+                    f = x[e].split("::: ");
+                    a = f[1].split(",");
+                    for (t = 0; t < a.length - 1;) {
+                      p = a[t];
+                      u = H.indexOf(parseInt(l.substring(b + 1, h).split(",")[0]));
+                      m = [];
+                      -1 != u && (m = String(I[u]).split(":::"));
+                      if (p == l.substring(b + 1, h).split(",")[0] || m.includes(p)) {
+                        k += f[0] + "|||";
                         break;
                       }
-                      r++;
+                      t++;
                     }
-                    n++;
+                    e++;
                   }
-                  "" !== h && D.push(u[d][0].target_evolution + "(" + m.substring(a + 1, g).split(",")[1] + ")::: " + m.substring(a + 1, g).split(",")[0] + "::: " + h + "::: " + f[p(u[d][0].monster, f)].name + "::: " + u[d][1]);
+                  "" !== k && D.push(v[d][0].target_evolution + "(" + l.substring(b + 1, h).split(",")[1] + ")::: " + l.substring(b + 1, h).split(",")[0] + "::: " + k + "::: " + g[n(v[d][0].monster, g)].name + "::: " + v[d][1]);
                 }
-                a--;
+                b--;
               } else {
-                "]" == b.charAt(0) && (g = a);
+                "]" == a.charAt(0) && (h = b);
               }
-              a--;
-              b = m.substring(a, a + 3);
+              b--;
+              a = l.substring(b, b + 3);
             }
-            e = c;
-          } while (u[d][0].monster != e);
+            f = c;
+          } while (v[d][0].monster != f);
           d++;
         }
         d = 0;
-        for (a = [[]]; d < D.length;) {
-          g = [];
+        for (f = [[]]; d < D.length;) {
+          h = [];
           e = D[d].split("::: ");
-          b = 1;
-          for (c = !0; b < a.length;) {
-            if ("undefined" !== typeof a[b] && a[b][0] == e[1]) {
+          a = 1;
+          for (c = !0; a < f.length;) {
+            if ("undefined" !== typeof f[a] && f[a][0] == e[1]) {
               c = !1;
-              break;
-            }
-            b++;
-          }
-          c ? (g.push(e[1]), g.push(e[0].split("(")[1].split(")")[0]), g.push(e[2] + ":::"), c = p(g[0], f), g.push(f[c].image60_href), c = p(e[0].split("(")[0], f), g.push(e[3] + " -> " + f[c].name), c = p(g[0], f), g.push(f[c].name), g.push(e[0].split("(")[1].split(")")[0]), g.push(e[4]), a.push(g)) : (a[b][2] += e[2] + ":::", c = p(e[0].split("(")[0], f), a[b][4] += ":::" + e[3] + " -> " + f[c].name, p(a[b][0], f), a[b][6] = a[b][6] + ":::" + e[0].split("(")[1].split(")")[0], a[b][1] = parseInt(a[b][1]) + 
-          parseInt(e[0].split("(")[1].split(")")[0]), a[b][7] = a[b][7] + ":::" + e[4]);
-          d++;
-        }
-        g = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}.tooltip2 { position: relative;}.tooltip2 .tooltip2text { visibility: hidden; width: auto; background-color: black; border-style: solid; border-color: #ffffff; color: #fff; text-align: center; padding: 5px 20px; border-radius: 6px; position: absolute; z-index: 1;}.tooltip2:hover .tooltip2text { visibility: visible;}</style>';
-        for (d = 1; d < a.length;) {
-          b = '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=', c = '<tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr>', e = '<tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr>', n = '<tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr>', h = '<tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr>', r = a[d][6].split(":::"), l = a[d][7].split(":::"), 
-          k = a[d][4].split(":::"), b += a[d][0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">Found in today\'s Dungeons:<br/>', b += a[d][2].replace(/:::/g, "<br>").replace(/\|\|\|/g, "<br>").replace(/<br><br>/g, "<br>") + '</span><img src="https://www.padherder.com/', b += a[d][3] + '"alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">', b += a[d][1] + "</td> </tr> ", a[d][7].includes("3") && (c = y(r, l, k, 3, "H")), a[d][7].includes("2") && 
-          (e = y(r, l, k, 2, "M")), a[d][7].includes("1") && (n = y(r, l, k, 1, "L")), a[d][7].includes("0") && (h = y(r, l, k, 0, "F")), g += b + (c + e + n + h), d++;
-        }
-        d = 0;
-        a = 1;
-        for (b = n = ""; d < C.length;) {
-          e = C[d].split("|||");
-          h = e[1].split("::: ");
-          1 == a ? (n = h[1], b += '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=', c = p(e[0].split("(")[0], f), b += e[0].split("(")[0] + '" target="_blank" tabindex="-1"><img src="https://www.padherder.com/', b += f[c].image60_href + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">', b += e[0].split("(")[1].split(")")[0] + "</td> </tr> <tr> ") : 
-          (h = e[a].split("::: "), p(h[1], f));
-          b += '<tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
-          b += h[1] + '" target="_blank" tabindex="-1"><span class="tooltip2text">';
-          for (c = f[p(h[1], f)].image60_href; a < e.length - 1;) {
-            h = e[a].split("::: ");
-            p(h[1], f);
-            if (h[1] == n) {
-              b += h[0] + "<br>";
-            } else {
-              d--;
-              n = h[1];
               break;
             }
             a++;
           }
-          a > e.length - 2 && (a = 1);
-          b += '</span><img src="https://www.padherder.com/';
-          b += c + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr>';
+          c ? (h.push(e[1]), h.push(e[0].split("(")[1].split(")")[0]), h.push(e[2] + ":::"), c = n(h[0], g), h.push(g[c].image60_href), c = n(e[0].split("(")[0], g), h.push(e[3] + " -> " + g[c].name), c = n(h[0], g), h.push(g[c].name), h.push(e[0].split("(")[1].split(")")[0]), h.push(e[4]), f.push(h)) : (f[a][2] += e[2] + ":::", c = n(e[0].split("(")[0], g), f[a][4] += ":::" + e[3] + " -> " + g[c].name, n(f[a][0], g), f[a][6] = f[a][6] + ":::" + e[0].split("(")[1].split(")")[0], f[a][1] = parseInt(f[a][1]) + 
+          parseInt(e[0].split("(")[1].split(")")[0]), f[a][7] = f[a][7] + ":::" + e[4]);
           d++;
         }
-        g += b;
+        h = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}.tooltip2 { position: relative;}.tooltip2 .tooltip2text { visibility: hidden; width: auto; background-color: black; border-style: solid; border-color: #ffffff; color: #fff; text-align: center; padding: 5px 20px; border-radius: 6px; position: absolute; z-index: 1;}.tooltip2:hover .tooltip2text { visibility: visible;}</style>';
+        for (d = 1; d < f.length;) {
+          a = '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=', c = '<tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr>', b = '<tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr>', e = '<tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr>', k = '<tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr>', t = f[d][6].split(":::"), p = f[d][7].split(":::"), 
+          u = f[d][4].split(":::"), a += f[d][0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">Found in today\'s Dungeons:', a += F(f[d][2].split(":::")).join("<br>").split("|||").join("<br>") + '</span><img src="https://www.padherder.com/', a += f[d][3] + '"alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">', a += f[d][1] + "</td> </tr> ", f[d][7].includes("3") && (c = y(t, p, u, 3, "H")), f[d][7].includes("2") && (b = y(t, p, 
+          u, 2, "M")), f[d][7].includes("1") && (e = y(t, p, u, 1, "L")), f[d][7].includes("0") && (k = y(t, p, u, 0, "F")), h += a + (c + b + e + k), d++;
+        }
+        d = 0;
+        b = 1;
+        for (a = f = ""; d < C.length;) {
+          e = C[d].split("|||");
+          k = e[1].split("::: ");
+          1 == b ? (f = k[1], a += '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=', c = n(e[0].split("(")[0], g), a += e[0].split("(")[0] + '" target="_blank" tabindex="-1"><img src="https://www.padherder.com/', a += g[c].image60_href + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">', a += e[0].split("(")[1].split(")")[0] + "</td> </tr> <tr> ") : 
+          (k = e[b].split("::: "), n(k[1], g));
+          a += '<tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
+          a += k[1] + '" target="_blank" tabindex="-1"><span class="tooltip2text">';
+          for (c = g[n(k[1], g)].image60_href; b < e.length - 1;) {
+            k = e[b].split("::: ");
+            n(k[1], g);
+            if (k[1] == f) {
+              a += k[0] + "<br>";
+            } else {
+              d--;
+              f = k[1];
+              break;
+            }
+            b++;
+          }
+          b > e.length - 2 && (b = 1);
+          a += '</span><img src="https://www.padherder.com/';
+          a += c + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr>';
+          d++;
+        }
+        h += a;
         d = document.createElement("div");
-        d.innerHTML = g;
-        c = document.evaluate('//*[@class="col-xs-12"]/p', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        d.innerHTML = h;
+        h = document.evaluate('//*[@class="col-xs-12"]/p', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         try {
-          c.insertBefore(d, c.childNodes[0]);
-        } catch (G) {
-          c = document.evaluate('//*[@id="edit-form"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue, c.insertBefore(d, c.childNodes[0]);
+          h.insertBefore(d, h.childNodes[0]);
+        } catch (J) {
+          h = document.evaluate('//*[@id="edit-form"]', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue, h.insertBefore(d, h.childNodes[0]);
         }
       });
     }
