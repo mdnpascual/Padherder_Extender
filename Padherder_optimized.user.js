@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         Padherder
 // @namespace    http://tampermonkey.net/
-// @version      0.75
+// @version      0.76
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -19,6 +19,7 @@
 (function() {
   function p(f, c) {
     var e = f;
+    e > c.length && (e = c.length - 1);
     try {
       for (; c[e].id != f;) {
         if (e--, 0 > e) {
@@ -178,7 +179,7 @@
         for (d = 1; d < a.length;) {
           b = '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=', c = '<tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr>', e = '<tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr>', n = '<tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr>', h = '<tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr>', r = a[d][6].split(":::"), l = a[d][7].split(":::"), 
           k = a[d][4].split(":::"), b += a[d][0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">Found in today\'s Dungeons:<br/>', b += a[d][2].replace(/:::/g, "<br>").replace(/\|\|\|/g, "<br>").replace(/<br><br>/g, "<br>") + '</span><img src="https://www.padherder.com/', b += a[d][3] + '"alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">', b += a[d][1] + "</td> </tr> ", a[d][7].includes("3") && (c = y(r, l, k, 3, "H")), a[d][7].includes("2") && 
-          (e = y(r, l, k, 2, "M")), a[d][7].includes("1") ? n = y(r, l, k, 1, "L") : h = y(r, l, k, 0, "F"), g += b + (c + e + n + h), d++;
+          (e = y(r, l, k, 2, "M")), a[d][7].includes("1") && (n = y(r, l, k, 1, "L")), a[d][7].includes("0") && (h = y(r, l, k, 0, "F")), g += b + (c + e + n + h), d++;
         }
         d = 0;
         a = 1;
