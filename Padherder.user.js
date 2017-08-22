@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.76
+// @version      0.77
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -19,6 +19,8 @@
 
     var today = new Date( new Date().getTime() + -2 * 3600 * 1000).getDay();
     var ignoreList = [147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 227, 234, 246, 247, 248, 249, 250, 251, 321, 797, 915, 916, 1002, 1085, 1086, 1087, 1176, 1294, 1295];
+    var highermons = [2006, 1839, 1712, 1536, 599, 3015, 2805, 2739, 2637, 2184, 2092, 1252, 2926, 2722, 2398, 2008, 1750, 1590, 1272, 1225, 1210, 1090, 984, 228, 839, 763, 273, 2391, 1461, 1841, 1737, 597, 1473, 3221, 2277, 2182, 1602, 1532, 1458, 1307, 1208, 2383, 2263, 2104, 1713, 1273, 1227, 1091, 835, 765, 434, 275, 3074, 2808, 1945, 2807, 1189, 2738, 1223, 1843, 2987, 2838, 2754];
+    var lowermons = ["565:::566", 1838, "682:::683", "598:::599", 598, 3014, 2804, "822:::229:::99:::98", 2636, 2183, 2091, 1251, 2978, 2721, 2397, 2007, 1749, 1589, "316:::79:::78", 1224, "399:::398", "211:::23:::22:::21", "512:::107:::106", 182, 838, 762, 272, "1461:::1460", 1460, 1840, "597:::596", 596, "683:::682", 3220, 2276, 2181, 1167, 1531, 783, 1306, "513:::222:::221", 2382, 2262, 2103, 738, "317:::81:::80", 1226, "212:::26:::25:::24", "834:::833:::832", 764, 433, 274, 3073, "1945:::1944", 1944, "1189:::1188", 1188, "1223:::1222", 1222, 1842, 2986, 2837, 2753];
     var allParse = [];
     var storedday = GM_getValue("date_sync", -1);
     var storedday2;
@@ -194,7 +196,11 @@
                                         var q = 0;
                                         while (q < splitmoremore.length -1){
                                             var r = splitmoremore[q];
-                                            if (r == data_evo_string.substring(n+1,o).split(",")[0]){
+                                            var index = highermons.indexOf(parseInt(data_evo_string.substring(n+1,o).split(",")[0]));
+                                            var checkthem = [];
+                                            if (index != -1)
+                                                checkthem = String(lowermons[index]).split(":::");
+                                            if ((r == data_evo_string.substring(n+1,o).split(",")[0]) || checkthem.includes(r)){
                                                 dungeon2push += splitmore[0] + "|||";
                                                 break;
                                             }
@@ -289,9 +295,9 @@
                     var split_prio = mats_format[i][7].split(":::");
                     var split_transition = mats_format[i][4].split(":::");
                     //PadX link
-                    stringappend += mats_format[i][0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">Found in today\'s Dungeons:<br/>';
-                    //Dungeons
-                    stringappend += mats_format[i][2].replace(/:::/g, "<br>").replace(/\|\|\|/g, "<br>").replace(/<br><br>/g, "<br>") + '</span><img src="https://www.padherder.com/';
+                    stringappend += mats_format[i][0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">Found in today\'s Dungeons:';
+                    //Dungeonsq
+                    stringappend += uniq(mats_format[i][2].split(":::")).join("<br>").split("|||").join("<br>") + '</span><img src="https://www.padherder.com/';
                     //img_url
                     stringappend += mats_format[i][3] + '"alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">';
                     //count
@@ -386,13 +392,13 @@
         if (m > array.length)
             m = array.length - 1;
         try{
-        while(array[m].id != n){
-            m--;
-            if (m < 0){
-                console.log("Monster ID: " + start + " not found in padherder database");
-                return 2897;
-            }
-        }}
+            while(array[m].id != n){
+                m--;
+                if (m < 0){
+                    console.log("Monster ID: " + start + " not found in padherder database");
+                    return 2897;
+                }
+            }}
         catch(err){
             console.log("Monster ID: " + start + " not found in padherder database");
             return 2898;
@@ -414,5 +420,10 @@
             z++;
         }
         return '<tr class="tooltip2"> <td class="tg-031e">' + letter + '</td> <td class="tg-0ord">' + count + '<span class="tooltip2text">' + tooltip + '</span></td> </tr>';
+    }
+    function uniq(a) {
+        return a.sort().filter(function(item, pos, ary) {
+            return !pos || item != ary[pos - 1];
+        });
     }
 })();
