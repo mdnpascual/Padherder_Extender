@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.78
+// @version      0.79
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -299,7 +299,7 @@
                     //Dungeonsq
                     stringappend += uniq(mats_format[i][2].split(":::")).join("<br>").split("|||").join("<br>") + '</span><img src="https://www.padherder.com/';
                     //img_url
-                    stringappend += mats_format[i][3] + '"alt="Mountain View" style="width:45px;height:45px;"></th></a> </tr> <tr> <td class="tg-0ord" colspan="2">';
+                    stringappend += mats_format[i][3] + '" alt="Mountain View" style="width:45px;height:45px;"></a></th> </tr> <tr> <td class="tg-0ord" colspan="2">';
                     //count
                     stringappend += mats_format[i][1] + '</td> </tr> ';
                     //Arranging
@@ -312,10 +312,10 @@
                     if (mats_format[i][7].includes("0"))
                         Zero = tooltipgen(split_count, split_prio, split_transition, 0, 'F');
                     arrange = Hi + Med + Low + Zero;
-                    html_string += stringappend + arrange;
+                    html_string += stringappend + arrange + '</table>';
                     i++;
                 }
-                //html_string += '<br><br>';
+                html_string += '<br><br>';
                 //Generate Skillup monsters to be farmed
                 i = 0;
                 var j = 1;
@@ -326,15 +326,17 @@
                     var splitting = filter_mons_need_skillup[i].split("|||");
                     var splitting2 = splitting[1].split("::: ");
                     if (j == 1){
+                        if (i > 0)
+                            stringappend += '</table>';
                         prev = splitting2[1];
                         stringappend += '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
                         var m = offsetseeker(splitting[0].split("(")[0], mons_data);
                         //PadX link
                         stringappend += splitting[0].split("(")[0] + '" target="_blank" tabindex="-1"><img src="https://www.padherder.com/';
                         //img_url
-                        stringappend += mons_data[m].image60_href + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">';
+                        stringappend += mons_data[m].image60_href + '" alt="Mountain View" style="width:45px;height:45px;"></a></th> </tr> <tr> <td class="tg-0ord" colspan="2">';
                         //count
-                        stringappend += splitting[0].split("(")[1].split(")")[0] + '</td> </tr> <tr> ';
+                        stringappend += splitting[0].split("(")[1].split(")")[0] + '</td> </tr>';
                     }
                     else{
                         splitting2 = splitting[j].split("::: ");
@@ -359,15 +361,27 @@
                     }
                     if (j > splitting.length - 2) //reset
                         j = 1;
-                    stringappend += '</span><img src="https://www.padherder.com/';
+                    stringappend += '</span><img src="https://www.padherder.com';
                     //img_url
-                    stringappend += img2use + '" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr>';
+                    stringappend += img2use + '" alt="Mountain View" style="width:45px;height:45px;"></a></th> </tr>';
                     i++;
                 }
                 html_string += stringappend;
                 //Inject html here
                 var inject_this = document.createElement("div");
-                //inject_this.innerHTML = '<style type="text/css">.tg {border-collapse:collapse;border-spacing:0;}.tg td{font-family:Arial, sans-serif;font-size:14px;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:2px 2px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}.tg .tg-0ord{text-align:right}</style><table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><img src="https://www.padherder.com/static/img/monsters/60x60/162.35dc01efa82a.png" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">0</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table><table class="tg" style="display:inline"> <tr> <th class="tg-031e" colspan="2"><img src="https://www.padherder.com/static/img/monsters/60x60/165.a23a17a7222a.png" alt="Mountain View" style="width:45px;height:45px;"></th> </tr> <tr> <td class="tg-0ord" colspan="2">0</td> </tr> <tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr> <tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr></table>';
+                inject_this.id = 'UC5HPmOW8yDEzfI';
+
+                //Filtering start
+                html_string += '</table><br><select>';
+                var p = 1;
+                var dungeon2push = '';
+                while (p < lines.length){
+                    var splitmore = lines[p].split("::: ");
+                    html_string += '<option value="' + splitmore[0] + '">' + splitmore[0] + '</option>';
+                    p++;
+                }
+                html_string += '</select>';
+
                 inject_this.innerHTML = html_string;
                 var list = getElementByXpath("//*[@class=\"col-xs-12\"]/p");
                 try{ //My Materials page
@@ -378,6 +392,7 @@
                     list.insertBefore(inject_this, list.childNodes[0]);
                 }
             });
+            var next = getElementByXpath("//*[@id=\"UC5HPmOW8yDEzfI\"]");
         }
     });
     //Parse Data
