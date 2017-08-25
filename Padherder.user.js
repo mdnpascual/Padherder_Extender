@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    http://tampermonkey.net/
-// @version      0.79
+// @version      0.79.1
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -29,6 +29,7 @@
     var data_user;
     var data_evo;
     var data_evo_string;
+    var dungeonz = [];
     var filter_mons = [];
     var filter_mons_need_skillup = [];
     var filteredw_evo_mons = [];
@@ -85,6 +86,13 @@
                 var i = 0;
                 var o;
                 var max_c, min_c;
+
+                //Sort Dungeons for later use
+                var pp = 1;
+                while (pp < lines.length){
+                    dungeonz.push(lines[pp].split("::: ")[0]);
+                    pp++;
+                }
                 //Parse all user data monsters
                 while (i < parseInt(data_user.monsters.length)){
                     if ((data_user.monsters[i].target_evolution !== null) && parseInt(data_user.monsters[i].priority) > 1){//Ignore monsters that has no planned evolutions in evo search
@@ -374,10 +382,9 @@
                 //Filtering start
                 html_string += '</table><br><select>';
                 var p = 1;
-                var dungeon2push = '';
-                while (p < lines.length){
-                    var splitmore = lines[p].split("::: ");
-                    html_string += '<option value="' + splitmore[0] + '">' + splitmore[0] + '</option>';
+                dungeonz = uniq(dungeonz);
+                while (p < dungeonz.length){
+                    html_string += '<option value="' + dungeonz[p] + '">' + dungeonz[p] + '</option>';
                     p++;
                 }
                 html_string += '</select>';
