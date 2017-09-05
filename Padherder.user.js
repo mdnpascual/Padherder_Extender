@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
-// @namespace    http://tampermonkey.net/
-// @version      0.79.2
+// @namespace    PadherderExtender
+// @version      0.80
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -380,7 +380,7 @@
                 inject_this.id = 'UC5HPmOW8yDEzfI';
 
                 //Filtering start
-                html_string += '</table><br><select>';
+                html_string += '</table><br><select id="selectorrr"><option value="Dungeon Select">Dungeon Select</option>';
                 var p = 1;
                 dungeonz = uniq(dungeonz);
                 while (p < dungeonz.length){
@@ -427,9 +427,6 @@
         }
         return m;
     }
-    function getElementByXpath(path) {
-        return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-    }
 
     function tooltipgen(split_count, split_prio, split_transition, prio, letter){
         var z = 0, count = 0;
@@ -449,3 +446,28 @@
         });
     }
 })();
+
+$(document).on('change','#selectorrr',function(event){
+    var dungeonName = this.options[this.selectedIndex].text;
+    var tables = document.body.getElementsByClassName("tg");
+    var i = 0;
+
+    //reset all first
+    while (i < tables.length){
+        if (tables[i].classList.length > 1)
+            tables[i].classList.remove("tf");
+        i++;
+    }
+    i = 0;
+    //Now apply new filter
+    while (i < tables.length){
+        if (tables[i].textContent.search(dungeonName) != -1){
+            tables[i].classList.add("tf");
+        }
+        i++;
+    }
+});
+
+function getElementByXpath(path) {
+    return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+}
