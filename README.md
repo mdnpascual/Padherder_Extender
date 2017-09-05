@@ -3,6 +3,12 @@ Userscript that shows possible powerup/material monsters from descended dungeons
 
 ![put screenshot here](http://puu.sh/xaI22/dc11d1d94a.jpg)
 
+# New Feature in v0.80!
+
+Highlighting entries that can be progressed on a specific dungeon (Use the drop down menu to filter)
+
+![Highlighting wow](http://puu.sh/xrTyQ/7ff4a375e8.jpg)
+
 ## Planned Features
 
 - Counts user's monster to be deducted to the amount of monsters needed to be farmed
