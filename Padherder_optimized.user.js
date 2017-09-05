@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         Padherder
 // @namespace    PadherderExtender
-// @version      0.80
+// @version      0.80.1
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -230,7 +230,7 @@
                 c = document.createElement("div");
                 c.id = "UC5HPmOW8yDEzfI";
                 h += '</table><br><select id="selectorrr"><option value="Dungeon Select">Dungeon Select</option>';
-                g = 1;
+                g = 0;
                 for (A = r(A); g < A.length;) {
                     h += '<option value="' + A[g] + '">' + A[g] + "</option>", g++;
                 }
