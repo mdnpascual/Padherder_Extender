@@ -7,7 +7,7 @@ Userscript that shows possible powerup/material monsters from descended dungeons
 
 Highlighting entries that can be progressed on a specific dungeon (Use the drop down menu to filter)
 
-![Highlighting wow](http://puu.sh/xrTyQ/7ff4a375e8.jpg)
+![Highlighting wow](http://puu.sh/xSNGS/c237835898.jpg)
 
 ## Planned Features
 
