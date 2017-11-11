@@ -1,5 +1,8 @@
+Edit notepad_script.py @ C:\Users\MDuh\AppData\Roaming\Notepad++\plugins\config\PythonScript\scripts
+
 ("2662":\[\{"is_ultimate":true,"materials":\[\[155,1\],\[156,1\],\[157,1\],\[158,1\],\[159,1\]\],"evolves_to":1074\}\])
-("2662":\[\{"is_ultimate":true,"materials":\[\[165,5\]\],"evolves_to":3506\}\])
+("2662":\[\{"is_ultimate":true,"materials":\[\[155,1\],\[156,1\],\[157,1\],\[158,1\],\[159,1\]\],"evolves_to":1074\},\{"is_ultimate":true,"materials":\[\[165,5\]\],"evolves_to":3506\}\])
+OLD: ("2662":\[\{"is_ultimate":true,"materials":\[\[165,5\]\],"evolves_to":3506\}\])
 
 ("3506":\[\{"is_ultimate":true,"materials":\[\[155,1\],\[156,1\],\[157,1\],\[158,1\],\[159,1\]\],"evolves_to":2661\},\{"is_ultimate":true,"materials":\[\[155,1\],\[156,1\],\[157,1\],\[158,1\],\[159,1\]\],"evolves_to":2662\}\])
 ("3506":\[\{"is_ultimate":true,"materials":\[\[155,1\],\[156,1\],\[157,1\],\[158,1\],\[159,1\]\],"evolves_to":2662\}\])
