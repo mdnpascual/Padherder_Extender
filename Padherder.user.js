@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    PadherderExtender
-// @version      0.80.1
+// @version      0.81
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -38,6 +38,7 @@
     var mons_data = [];
     var active_skill = [];
     var active_skill_string;
+    var mons_data_string;
     //Get current database
     allParse.push($.get("https://gist.githubusercontent.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440/raw/file1.txt", function( database_scraped ) {
         lines = database_scraped.split("\n");
@@ -68,6 +69,7 @@
             }));
             functionales.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/monsters.json", function( padx_scraped ) {
                 mons_data = JSON.parse(padx_scraped);
+                mons_data_string = padx_scraped;
             }));
             functionales.push($.get("https://raw.githubusercontent.com/mdnpascual/Padherder_Extender/master/json_template/active_skills.json", function( padx_scraped ) {
                 active_skill = JSON.parse(padx_scraped);
@@ -413,6 +415,13 @@
         var m = n;
         if (m > array.length)
             m = array.length - 1;
+
+        var i = 0;
+        while (i < array.length -1){
+            if (array[i].pdx_id == n)
+                return i;
+            i++;
+        }
         try{
             while(array[m].id != n){
                 m--;
