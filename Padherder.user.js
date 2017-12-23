@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    PadherderExtender
-// @version      0.81
+// @version      0.82
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -136,7 +136,14 @@
                         var j = 1;
                         while (j < lines.length){//Loop in today's database
                             var splitmore = lines[j].split("::: ");
-                            var splitmoremore = splitmore[1].split(",");
+                            try {
+                                var splitmoremore = splitmore[1].split(",");
+                            }
+                            catch (e) {
+                                j++;
+                                continue;
+                            }
+                            //var splitmoremore = splitmore[1].split(",");
                             var k = 0;
                             while (k < splitmoremore.length -1){//Loop on all monster in each line's dungeon
                                 m = offsetseeker(splitmoremore[k], mons_data);
@@ -202,7 +209,13 @@
                                     var dungeon2push = '';
                                     while (p < lines.length){
                                         var splitmore = lines[p].split("::: ");
+                                        try{
                                         var splitmoremore = splitmore[1].split(",");
+                                        }
+                                        catch (e){
+                                            p++;
+                                            continue;
+                                        }
                                         var q = 0;
                                         while (q < splitmoremore.length -1){
                                             var r = splitmoremore[q];
