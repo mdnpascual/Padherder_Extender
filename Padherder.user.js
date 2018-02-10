@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    PadherderExtender
-// @version      0.83
+// @version      0.83.1
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -49,6 +49,7 @@
         storedday2 = lines2[0];
     }));
     $.when(allParse[0], allParse[1]).done(function() {
+        //if ((storedday != today) && (storedday2 != today))
         if ((storedday != today) && (storedday2 != today)){//If both links don't match the current day
             alert("Padx database not updated for today, please visit puzzledragonx.com/ and let the script update the database");
         }
@@ -487,7 +488,7 @@ $(document).on('change','#selectorrr',function(event){
     i = 0;
     //Now apply new filter
     while (i < tables.length){
-        if (tables[i].textContent.search(dungeonName) != -1){
+        if (tables[i].textContent.indexOf(dungeonName) != -1){
             tables[i].classList.add("tf");
         }
         i++;

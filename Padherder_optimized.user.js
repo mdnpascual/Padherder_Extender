@@ -3,7 +3,7 @@
 // ==UserScript==
 // @name         Padherder
 // @namespace    PadherderExtender
-// @version      0.83
+// @version      0.83.1
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -42,11 +42,11 @@
       return !d || b != g[d - 1];
     });
   }
-  var B = (new Date((new Date).getTime() + -36E5)).getDay(), I = [147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 227, 234, 246, 247, 248, 249, 250, 251, 321, 797, 915, 916, 1002, 1085, 1086, 1087, 1176, 1294, 1295], J = [2006, 1839, 1712, 1536, 599, 3015, 2805, 2739, 2637, 2184, 2092, 1252, 2926, 2722, 2398, 2008, 1750, 1590, 1272, 1225, 1210, 1090, 984, 228, 839, 763, 273, 2391, 1461, 1841, 1737, 597,
-  1473, 3221, 2277, 2182, 1602, 1532, 1458, 1307, 1208, 2383, 2263, 2104, 1713, 1273, 1227, 1091, 835, 765, 434, 275, 3074, 2808, 1945, 2807, 1189, 2738, 1223, 1843, 2987, 2838, 2754, 2741, 2639, 2129, 1837, 1711, 1629, 1209, 1206, 1098, 651, 3329, 3327, 2320, 1754, 1472, 1425, 1274, 1092, 1190, 612, 767, 432, 436, 277, 2946, 1250, 2892, 1119, 2664, 2528, 1923, 1845, 1727, 1422, 1342, 917, 3155, 3013, 2742, 2234, 1525, 1463, 1459, 1322, 1246, 3087, 2551, 2400, 2127, 1631, 1093, 810, 1220, 666, 282,
-  837, 2947, 2737, 2526, 2180, 1847, 1646, 1371, 645, 1215, 985, 918, 3245, 3153, 2809, 2069, 2130, 1465, 1248, 1207, 814, 2402, 2128, 1601, 771, 279], K = ["565:::566", 1838, "682:::683", "598:::599", 598, 3014, 2804, "822:::229:::99:::98", 2636, 2183, 2091, 1251, 2978, 2721, 2397, 2007, 1749, 1589, "316:::79:::78", 1224, "399:::398", "211:::23:::22:::21", "512:::107:::106", 182, 838, 762, 272, "1461:::1460", 1460, 1840, "597:::596", 596, "683:::682", 3220, 2276, 2181, 1167, 1531, 783, 1306, "513:::222:::221",
-  2382, 2262, 2103, 738, "317:::81:::80", 1226, "212:::26:::25:::24", "834:::833:::832", 764, 433, 274, 3073, "1945:::1944", 1944, "1189:::1188", 1188, "1223:::1222", 1222, 1842, 2986, 2837, 2753, "824:::231:::103:::102", 2638, "778:::777", 1836, 1710, 1628, "514:::224:::223", 285, 1097, 650, 3328, 3326, 2319, 1753, 1471, 1424, "318:::83:::82", "213:::29:::28:::27", "744:::743::::742", 611, 766, 431, 435, 276, "1250:::1249", 1249, "1119:::1118", 1118, "812:::811", 2527, 1922, 1844, "694:::515:::226:::225",
-  "649:::648", "781:::780", "188:::187", 3154, 3012, "825:::232:::105:::104", 2233, 1524, 1462, 785, "769:::768", 1245, 3086, 2550, 2399, "319:::85:::84", 1630, "214:::32:::31:::30", 809, 1219, "349:::348", 281, 836, "1062:::1061", 2736, 2525, "814:::813", 1846, "647:::646", "645:::644", 644, "683:::682", "190:::189", "188:::187", 3244, 3152, "2069:::2068", 2068, 544, 1464, 1247, 287, 813, 2401, "320:::87:::86", 1595, 770, 278], v = [], C = GM_getValue("date_sync", -1), G, x, D, n = [], r, m, A =
+  var B = (new Date((new Date).getTime() + -36E5)).getDay(), I = [147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 227, 234, 246, 247, 248, 249, 250, 251, 321, 797, 915, 916, 1002, 1085, 1086, 1087, 1176, 1294, 1295], J = [2006, 1839, 1712, 1536, 599, 3015, 2805, 2739, 2637, 2184, 2092, 1252, 2926, 2722, 2398, 2008, 1750, 1590, 1272, 1225, 1210, 1090, 984, 228, 839, 763, 273, 2391, 1461, 1841, 1737, 597, 
+  1473, 3221, 2277, 2182, 1602, 1532, 1458, 1307, 1208, 2383, 2263, 2104, 1713, 1273, 1227, 1091, 835, 765, 434, 275, 3074, 2808, 1945, 2807, 1189, 2738, 1223, 1843, 2987, 2838, 2754, 2741, 2639, 2129, 1837, 1711, 1629, 1209, 1206, 1098, 651, 3329, 3327, 2320, 1754, 1472, 1425, 1274, 1092, 1190, 612, 767, 432, 436, 277, 2946, 1250, 2892, 1119, 2664, 2528, 1923, 1845, 1727, 1422, 1342, 917, 3155, 3013, 2742, 2234, 1525, 1463, 1459, 1322, 1246, 3087, 2551, 2400, 2127, 1631, 1093, 810, 1220, 666, 282, 
+  837, 2947, 2737, 2526, 2180, 1847, 1646, 1371, 645, 1215, 985, 918, 3245, 3153, 2809, 2069, 2130, 1465, 1248, 1207, 814, 2402, 2128, 1601, 771, 279], K = ["565:::566", 1838, "682:::683", "598:::599", 598, 3014, 2804, "822:::229:::99:::98", 2636, 2183, 2091, 1251, 2978, 2721, 2397, 2007, 1749, 1589, "316:::79:::78", 1224, "399:::398", "211:::23:::22:::21", "512:::107:::106", 182, 838, 762, 272, "1461:::1460", 1460, 1840, "597:::596", 596, "683:::682", 3220, 2276, 2181, 1167, 1531, 783, 1306, "513:::222:::221", 
+  2382, 2262, 2103, 738, "317:::81:::80", 1226, "212:::26:::25:::24", "834:::833:::832", 764, 433, 274, 3073, "1945:::1944", 1944, "1189:::1188", 1188, "1223:::1222", 1222, 1842, 2986, 2837, 2753, "824:::231:::103:::102", 2638, "778:::777", 1836, 1710, 1628, "514:::224:::223", 285, 1097, 650, 3328, 3326, 2319, 1753, 1471, 1424, "318:::83:::82", "213:::29:::28:::27", "744:::743::::742", 611, 766, 431, 435, 276, "1250:::1249", 1249, "1119:::1118", 1118, "812:::811", 2527, 1922, 1844, "694:::515:::226:::225", 
+  "649:::648", "781:::780", "188:::187", 3154, 3012, "825:::232:::105:::104", 2233, 1524, 1462, 785, "769:::768", 1245, 3086, 2550, 2399, "319:::85:::84", 1630, "214:::32:::31:::30", 809, 1219, "349:::348", 281, 836, "1062:::1061", 2736, 2525, "814:::813", 1846, "647:::646", "645:::644", 644, "683:::682", "190:::189", "188:::187", 3244, 3152, "2069:::2068", 2068, 544, 1464, 1247, 287, 813, 2401, "320:::87:::86", 1595, 770, 278], v = [], C = GM_getValue("date_sync", -1), G, x, D, n = [], r, m, A = 
   [], y = [], E = [], F = [], g = [], z;
   v.push($.get("https://gist.githubusercontent.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440/raw/file1.txt", function(g) {
     x = g.split("\n");
@@ -197,14 +197,14 @@
             }
             h++;
           }
-          f ? (d.push(e[1]), d.push(e[0].split("(")[1].split(")")[0]), d.push(e[2] + ":::"), f = l(d[0], g), d.push(g[f].image60_href), f = l(e[0].split("(")[0], g), d.push(e[3] + " -> " + g[f].name), f = l(d[0], g), d.push(g[f].name), d.push(e[0].split("(")[1].split(")")[0]), d.push(e[4]), a.push(d)) : (a[h][2] += e[2] + ":::", f = l(e[0].split("(")[0], g), a[h][4] += ":::" + e[3] + " -> " + g[f].name, l(a[h][0], g), a[h][6] = a[h][6] + ":::" + e[0].split("(")[1].split(")")[0], a[h][1] = parseInt(a[h][1]) +
+          f ? (d.push(e[1]), d.push(e[0].split("(")[1].split(")")[0]), d.push(e[2] + ":::"), f = l(d[0], g), d.push(g[f].image60_href), f = l(e[0].split("(")[0], g), d.push(e[3] + " -> " + g[f].name), f = l(d[0], g), d.push(g[f].name), d.push(e[0].split("(")[1].split(")")[0]), d.push(e[4]), a.push(d)) : (a[h][2] += e[2] + ":::", f = l(e[0].split("(")[0], g), a[h][4] += ":::" + e[3] + " -> " + g[f].name, l(a[h][0], g), a[h][6] = a[h][6] + ":::" + e[0].split("(")[1].split(")")[0], a[h][1] = parseInt(a[h][1]) + 
           parseInt(e[0].split("(")[1].split(")")[0]), a[h][7] = a[h][7] + ":::" + e[4]);
           b++;
         }
         d = '<style type="text/css"> .tg { border-collapse: collapse; border-spacing: 0; } .tg td { font-family: Arial, sans-serif; font-size: 14px; padding: 2px 2px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; } .tg th { font-family: Arial, sans-serif; font-size: 14px; font-weight: normal; padding: 2px 2px; border-style: solid; border-width: 1px; overflow: hidden; word-break: normal; } .tg .tg-0ord { text-align: right }.tf { border-collapse: collapse; border-spacing: 0; } .tf td { font-family: Arial, sans-serif; font-size: 14px; padding: 2px 2px; border-style: solid; border-width: 8px; border-color:red; overflow: hidden; word-break: normal; } .tf th { font-family: Arial, sans-serif; font-size: 14px; font-weight: normal; padding: 2px 2px; border-style: solid; border-width: 8px; border-color:red; overflow: hidden; word-break: normal; } .tf .tg-0ord { text-align: right } .tooltip2 { position: relative; } .tooltip2 .tooltip2text { visibility: hidden; width: auto; background-color: black; border-style: solid; border-color: #ffffff; color: #fff; text-align: center; padding: 5px 20px; border-radius: 6px; position: absolute; z-index: 1; } .tooltip2:hover .tooltip2text { visibility: visible; }</style>';
         for (b = 1; b < a.length;) {
-          h = '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=', f = '<tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr>', c = '<tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr>', e = '<tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr>', k = '<tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr>', p = a[b][6].split(":::"), u = a[b][7].split(":::"),
-          w = a[b][4].split(":::"), h += a[b][0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">Found in today\'s Dungeons:', h += q(a[b][2].split(":::")).join("<br>").split("|||").join("<br>") + '</span><img src="http://pad.dnt7.com/', h += a[b][3] + '" alt="Mountain View" style="width:45px;height:45px;"></a></th> </tr> <tr> <td class="tg-0ord" colspan="2">', h += a[b][1] + "</td> </tr> ", a[b][7].includes("3") && (f = t(p, u, w, 3, "H")), a[b][7].includes("2") && (c = t(p, u, w,
+          h = '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=', f = '<tr> <td class="tg-031e">H</td> <td class="tg-0ord">0</td> </tr>', c = '<tr> <td class="tg-031e">M</td> <td class="tg-0ord">0</td> </tr>', e = '<tr> <td class="tg-031e">L</td> <td class="tg-0ord">0</td> </tr>', k = '<tr> <td class="tg-031e">F</td> <td class="tg-0ord">0</td> </tr>', p = a[b][6].split(":::"), u = a[b][7].split(":::"), 
+          w = a[b][4].split(":::"), h += a[b][0] + '" target="_blank" tabindex="-1"><span class="tooltip2text">Found in today\'s Dungeons:', h += q(a[b][2].split(":::")).join("<br>").split("|||").join("<br>") + '</span><img src="http://pad.dnt7.com/', h += a[b][3] + '" alt="Mountain View" style="width:45px;height:45px;"></a></th> </tr> <tr> <td class="tg-0ord" colspan="2">', h += a[b][1] + "</td> </tr> ", a[b][7].includes("3") && (f = t(p, u, w, 3, "H")), a[b][7].includes("2") && (c = t(p, u, w, 
           2, "M")), a[b][7].includes("1") && (e = t(p, u, w, 1, "L")), a[b][7].includes("0") && (k = t(p, u, w, 0, "F")), d += h + (f + c + e + k) + "</table>", b++;
         }
         d += "<br><br>";
@@ -213,7 +213,7 @@
         for (h = a = ""; b < E.length;) {
           e = E[b].split("|||");
           k = e[1].split("::: ");
-          1 == c ? (0 < b && (h += "</table>"), a = k[1], h += '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=', f = l(e[0].split("(")[0], g), h += e[0].split("(")[0] + '" target="_blank" tabindex="-1"><img src="http://pad.dnt7.com/', h += g[f].image60_href + '" alt="Mountain View" style="width:45px;height:45px;"></a></th> </tr> <tr> <td class="tg-0ord" colspan="2">', h += e[0].split("(")[1].split(")")[0] +
+          1 == c ? (0 < b && (h += "</table>"), a = k[1], h += '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=', f = l(e[0].split("(")[0], g), h += e[0].split("(")[0] + '" target="_blank" tabindex="-1"><img src="http://pad.dnt7.com/', h += g[f].image60_href + '" alt="Mountain View" style="width:45px;height:45px;"></a></th> </tr> <tr> <td class="tg-0ord" colspan="2">', h += e[0].split("(")[1].split(")")[0] + 
           "</td> </tr>") : (k = e[c].split("::: "), l(k[1], g));
           h += '<tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
           h += k[1] + '" target="_blank" tabindex="-1"><span class="tooltip2text">';
@@ -260,7 +260,7 @@ $(document).on("change", "#selectorrr", function(l) {
     1 < t[q].classList.length && t[q].classList.remove("tf"), q++;
   }
   for (q = 0; q < t.length;) {
-    -1 != t[q].textContent.search(l) && t[q].classList.add("tf"), q++;
+    -1 != t[q].textContent.indexOf(l) && t[q].classList.add("tf"), q++;
   }
 });
 function getElementByXpath(l) {
