@@ -225,6 +225,8 @@ namespace Padguide_Scrape
             writer.Close();
 
             string result = null;
+			//Github change to only use TLS1.2 and above: https://githubengineering.com/crypto-removal-notice/
+			ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             using (HttpWebResponse resp = req.GetResponse() as HttpWebResponse)//Exception here
             {
                 StreamReader reader =
