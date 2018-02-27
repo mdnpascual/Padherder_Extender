@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padherder_test
 // @namespace    PadherderExtender
-// @version      0.83.2
+// @version      0.84
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
@@ -36,6 +36,7 @@
     var active_skill = [];
     var active_skill_string;
     var mons_data_string;
+    var dict = {};
     //Get current database
     allParse.push($.get("https://gist.githubusercontent.com/padxExtender/e11935cf82505acbdd2b6e03a8cfe440/raw/file1.txt", function( database_scraped ) {
         lines = database_scraped.split("\n");
@@ -97,7 +98,7 @@
                 var findstring = '"name":"';
                 var monsss_id = (data_user.monsters[i].target_evolution == null) ? parseInt(data_user.monsters[i].monster) - 1 : parseInt(data_user.monsters[i].target_evolution) - 1;
                 var l = monsss_id;
-                l = offsetseeker(monsss_id + 1, mons_data);
+                l = offsetseekerCache(monsss_id + 1, mons_data);
                 findstring = findstring + escapeRegExp(mons_data[l].active_skill) + '"';
                 var n = active_skill_string.search(findstring);
                 if (n == -1){
@@ -139,7 +140,7 @@
                         //var splitmoremore = splitmore[1].split(",");
                         var k = 0;
                         while (k < splitmoremore.length -1){//Loop on all monster in each line's dungeon
-                            m = offsetseeker(splitmoremore[k], mons_data);
+                            m = offsetseekerCache(splitmoremore[k], mons_data);
                             if (mons_data[m].active_skill == mons_data[l].active_skill){
                                 if (!enteredonce)
                                     skillupevo = skillupevo + (monsss_id + 1) + "(" + ((max_c - min_c + 1) - data_user.monsters[i].current_skill) + ")" + "|||" + splitmore[0] + "::: " + mons_data[m].id + "::: " + mons_data[m].name + "|||";
@@ -225,7 +226,7 @@
                                     p++;
                                 }
                                 if (dungeon2push !== '')
-                                    filteredw_evo_mons.push(filter_mons[i][0].target_evolution + "(" + data_evo_string.substring(n+1,o).split(",")[1] + ")" + "::: " + data_evo_string.substring(n+1,o).split(",")[0] + "::: " + dungeon2push + "::: " + mons_data[offsetseeker(filter_mons[i][0].monster, mons_data)].name + "::: " + filter_mons[i][1]);
+                                    filteredw_evo_mons.push(filter_mons[i][0].target_evolution + "(" + data_evo_string.substring(n+1,o).split(",")[1] + ")" + "::: " + data_evo_string.substring(n+1,o).split(",")[0] + "::: " + dungeon2push + "::: " + mons_data[offsetseekerCache(filter_mons[i][0].monster, mons_data)].name + "::: " + filter_mons[i][1]);
                             }
                             n--;
                         }
@@ -263,11 +264,11 @@
                     temparray.push(splitting[1]);
                     temparray.push(splitting[0].split("(")[1].split(")")[0]);
                     temparray.push(splitting[2] + ":::");
-                    m = offsetseeker(temparray[0], mons_data);
+                    m = offsetseekerCache(temparray[0], mons_data);
                     temparray.push(mons_data[m].image60_href);
-                    m = offsetseeker(splitting[0].split("(")[0], mons_data);
+                    m = offsetseekerCache(splitting[0].split("(")[0], mons_data);
                     temparray.push(splitting[3] + " -> " + mons_data[m].name);
-                    m = offsetseeker(temparray[0], mons_data);
+                    m = offsetseekerCache(temparray[0], mons_data);
                     temparray.push(mons_data[m].name);
                     temparray.push(splitting[0].split("(")[1].split(")")[0]);
                     temparray.push(splitting[4]);
@@ -275,9 +276,9 @@
                 }
                 else{ //Else, use index to update material entry
                     mats_format[t][2] += splitting[2] + ":::";
-                    m = offsetseeker(splitting[0].split("(")[0], mons_data);
+                    m = offsetseekerCache(splitting[0].split("(")[0], mons_data);
                     mats_format[t][4] += ":::" + splitting[3] + " -> " + mons_data[m].name;
-                    m = offsetseeker(mats_format[t][0], mons_data);
+                    m = offsetseekerCache(mats_format[t][0], mons_data);
                     mats_format[t][6] = mats_format[t][6] + ":::" + splitting[0].split("(")[1].split(")")[0];
                     mats_format[t][1] = parseInt(mats_format[t][1]) + parseInt(splitting[0].split("(")[1].split(")")[0]);
                     mats_format[t][7] = mats_format[t][7] + ":::" + splitting[4];
@@ -346,7 +347,7 @@
                         stringappend += '</table>';
                     prev = splitting2[1];
                     stringappend += '<table class="tg" style="display:inline"> <tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
-                    var m = offsetseeker(splitting[0].split("(")[0], mons_data);
+                    var m = offsetseekerCache(splitting[0].split("(")[0], mons_data);
                     //PadX link
                     stringappend += splitting[0].split("(")[0] + '" target="_blank" tabindex="-1"><img src="http://pad.dnt7.com/';
                     //img_url
@@ -356,16 +357,16 @@
                 }
                 else{
                     splitting2 = splitting[j].split("::: ");
-                    m = offsetseeker(splitting2[1], mons_data);
+                    m = offsetseekerCache(splitting2[1], mons_data);
                 }
                 //PadX link
                 stringappend += '<tr class="tooltip2"> <th class="tg-031e" colspan="2"><a href="http://www.puzzledragonx.com/en/monster.asp?n=';
                 //Tooltip (dungeons)
                 stringappend += splitting2[1] + '" target="_blank" tabindex="-1"><span class="tooltip2text">';
-                img2use = mons_data[offsetseeker(splitting2[1], mons_data)].image60_href;
+                img2use = mons_data[offsetseekerCache(splitting2[1], mons_data)].image60_href;
                 while (j < splitting.length - 1){
                     splitting2 = splitting[j].split("::: ");
-                    m = offsetseeker(splitting2[1], mons_data);
+                    m = offsetseekerCache(splitting2[1], mons_data);
                     if (splitting2[1] == prev)
                         stringappend += splitting2[0] + '<br>';
                     else{
@@ -415,19 +416,16 @@
             return null;
         return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
     }
+    function offsetseekerCache(start, array){
+        if (!(start in dict))
+            dict[start] = offsetseeker(start, array);
+        return dict[start];
+    }
     function offsetseeker(start, array){
         var n = start;
         var m = n;
         if (m > array.length)
             m = array.length - 1;
-        /*
-        var i = 0;
-        while (i < array.length -1){
-            if (array[i].pdx_id == n)
-                return i;
-            i++;
-        }
-*/
         try{
             while(array[m].id != n){
                 if (array[m].id < m)
