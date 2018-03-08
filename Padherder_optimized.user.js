@@ -1,15 +1,15 @@
 //Using Google Closure compiler
 
 // ==UserScript==
-// @name         Padherder_test
+// @name         Padherder
 // @namespace    PadherderExtender
 // @version      0.84.1
 // @description  Shows possible Skillup/Material monsters from descended dungeons in PadHerder site
 // @author       MDuh
 // @match        https://www.padherder.com/*
 // @require      http://code.jquery.com/jquery-3.2.1.js
-// @downloadURL  https://github.com/mdnpascual/Padherder_Extender/raw/master/Padherder.user.js
-// @updateURL    https://github.com/mdnpascual/Padherder_Extender/raw/master/Padherder.user.js
+// @downloadURL  https://github.com/mdnpascual/Padherder_Extender/raw/master/Padherder_optimized.user.js
+// @updateURL    https://github.com/mdnpascual/Padherder_Extender/raw/master/Padherder_optimized.user.js
 // @grant        GM.getValue
 // @grant        GM.setValue
 // @run-at       document-end
