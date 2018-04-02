@@ -218,16 +218,17 @@ namespace Padguide_Scrape
 
             HttpWebRequest req = WebRequest.Create(new Uri(_url)) as HttpWebRequest;
 
-            //String userName = "username";
-            //String userPassword = "pass";
-            //string authInfo = userName + ":" + userPassword;
-            //authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
+            String userName = "padxExtender";
+            String userPassword = "<PADXEXTENDERPASSWORD>";
+            string authInfo = userName + ":" + userPassword;
+            authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
 
-            req.Method = "PATCH";
+            ////req.Method = "PATCH";
+            req.Method = "POST";
             req.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
             // req.Headers.Add(string.Format("Authorization: token {0}", oauthToken));
-            //req.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(username + ":" + password)));
-            req.Headers.Add("Authorization: token 29862dbc2dfd4fe19d23f797f1254ef3aa71c9d7");
+            req.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(userName + ":" + userPassword)));
+            ////req.Headers.Add("Authorization: token <40LENGTHTOKENKEY>");
             req.UserAgent = "Anything";
             StreamWriter writer = new StreamWriter(req.GetRequestStream());
 
