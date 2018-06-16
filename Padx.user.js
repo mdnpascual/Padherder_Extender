@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Padx_test
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.6.1
 // @description  try to take over the world!
 // @author       MDuh
 // @match        http://puzzledragonx.com/
@@ -17,7 +17,7 @@
 
     //alert("I am an alert box!"); //DEBUGGER
     //console.log(storedday); //DEBUGGER
-    var today = new Date( new Date().getTime() + -2 * 3600 * 1000).getDay();
+    var today = new Date( new Date().getTime() + -1 * 3600 * 1000).getDay();
     var storedday = GM_getValue("date_sync", -1);
     var storedday2 = GM_getValue("date_sync", -1);
     var blah = GM_getValue("padx_scraped", -1);
@@ -57,7 +57,6 @@
             }).done(function(response) {
                 console.log(response);
             });*/
-
             console.log("Nothing to scrape");
         }
         else{
@@ -73,6 +72,7 @@
             var dungeonNames = [];
             var dungeonURL = [];
             var ignoreList = [147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 227, 234, 246, 247, 248, 249, 250, 251, 321, 797, 915, 916, 1002, 1085, 1086, 1087, 1176, 1294, 1295];
+            var metalURL = [];
 
             //Step 2: Loop through XPath and stop when dungeon has not started string is found (signifies a dungeon for tomorrow
             while (cond){
@@ -86,6 +86,32 @@
                 //console.log("Text: " + find.textContent);
                 cond = condition.iterateNext();
                 find = finder.iterateNext();
+            }
+
+            //Step 2.5: Get daily metals
+            var metalcond = document.evaluate('//*[@id="metal1a"]/span/table/tbody/tr/td/a', document, null, XPathResult.ANY_TYPE, null);
+            var metalfind = metalcond.iterateNext();
+            var count = 0;
+            while(metalfind){
+                if (!dungeonURL.includes(metalfind.href)){
+                    dungeonURL.push(metalfind.href);
+                    metalURL.push(metalfind.href);
+                }
+                count++;
+                metalfind = metalcond.iterateNext();
+            }
+            var scrapers = [];
+
+            count = 0;
+            while (count < metalURL.length){
+                scrapers.push($.get(metalURL[count], function( database_scraped ) {
+                    var doc = document.implementation.createHTMLDocument("");
+                    doc.documentElement.innerHTML = database_scraped;
+                    var metalnamecond = doc.evaluate('//*[@id="content"]/div[3]/h1', document, null, XPathResult.ANY_TYPE, null);
+                    var metalnamefind = metalnamecond.iterateNext();
+                    dungeonNames.push(metalnamefind.textContent);
+                }));
+                count++;
             }
 
             //Step 3: Open Dungeon URL and parses the possible monster drops and sort them unto outputStringarr
@@ -111,7 +137,6 @@
                             //console.log(extraLevelsout.textContent);
                             extraLevelsout = extraLevels.iterateNext();
                         }
-                        //TODO: Parse multilevel dungeons
                     }
 
                     outputString2 = outputString2 + dunNameout.textContent + "::: ";
@@ -162,22 +187,21 @@
                     i = i + 1;
                 }
             });
-
             $.when(functionales[functionales.length-1]).done(function() {
                 $.when(functionales3[functionales3.length-1]).done(function() {
                     GM_setValue("padx_scraped", outputStringarr);
                     console.log("Padx done scraping for today!");
                     var combined = today + "\n";
 
-                    $.ajax({
+                    var logger = $.ajax({
                         url: 'https://api.github.com/gists/e11935cf82505acbdd2b6e03a8cfe440',
-                        type: 'PATCH',
+                        type: 'POST',
                         beforeSend: function(xhr) {
-                            xhr.setRequestHeader("Authorization", "token " + atob("fuckoff")); //See private repo for updated access token
+                            xhr.setRequestHeader("Authorization", "Basic " + "<BASE64LOGIN>");
                         },
                         data: JSON.stringify({"description": "PadxExtender daily database","public": true,"files": {"file1.txt": {"content": combined + outputStringarr.join("\n") }}})
                     }).done(function(response) {
-                        //console.log(response);
+                        console.log(logger);
                     });
                 });
             });
